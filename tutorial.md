@@ -91,4 +91,18 @@ then execute jekyll.
 
 ### _config.yml
 
-there are much things to configuration.
+there are much things to configuration. Almost things are set directly with comments,
+somethings like awesome are left in `_config.yml`.
+
+- teaser
+- logo
+- comments
+- search
+
+## Trouble Shooting
+
+### Page build failure
+
+>  File to import not found or unreadable: minimal-mistakes/vendor/breakpoint/breakpoint.
+
+When I first pull repository from github, `.gitignore` includes `vendor` directory. This interrupts building in github pages, not in localhost. The solution is remove `vendor` in `.gitignore` then commit and push again.
