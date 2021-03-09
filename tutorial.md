@@ -99,6 +99,20 @@ somethings like awesome are left in `_config.yml`.
 - comments
 - search
 
+## Customize
+
+### favicon
+
+> Special Thanks For [Favicon & App Icon Generator](https://www.favicon-generator.org/)
+
+### author profile location
+
+hide author profile in sidebar on single layout.
+
+### some texts
+
+through `/_data/ui-text.yml` and some `_layouts`
+
 ## Trouble Shooting
 
 ### Page build failure

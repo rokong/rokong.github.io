@@ -38,12 +38,14 @@ body {
 .page {
   @include breakpoint($large) {
     float: right;
-    width: calc(100% - #{$right-sidebar-width-narrow});
+    width: 100%;
+    //width: calc(100% - #{$right-sidebar-width-narrow});
     padding-right: $right-sidebar-width-narrow;
   }
 
   @include breakpoint($x-large) {
-    width: calc(100% - #{$right-sidebar-width});
+    //width: calc(100% - #{$right-sidebar-width});
+    width: 100%;
     padding-right: $right-sidebar-width;
   }
 
@@ -315,22 +317,26 @@ body {
   }
 
   strong {
-    margin-right: 10px;
+    margin-right: 3px;
   }
 }
 
 .page__taxonomy-item {
   display: inline-block;
   margin-right: 5px;
-  margin-bottom: 8px;
-  padding: 5px 10px;
+  margin-bottom: 5px;
+  padding: 3px 5px;
   text-decoration: none;
   border: 1px solid mix(#000, $border-color, 25%);
   border-radius: $border-radius;
 
   &:hover {
+    background-color: #393e46;
+    color: #fff;
+    /*
     text-decoration: none;
     color: $link-color-hover;
+    */
   }
 }
 
@@ -400,6 +406,10 @@ body {
   text-transform: uppercase;
   text-align: right;
   text-decoration: none;
+}
+
+.page__date strong {
+  margin-right: 3px;
 }
 
 /*

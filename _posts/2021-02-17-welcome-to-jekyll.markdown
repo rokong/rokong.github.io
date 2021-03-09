@@ -1,8 +1,10 @@
 ---
 title:  "Jekyll 연습장"
 date:   2021-02-17 22:57:54 +0900
-categories: jekyll update
+categories: jekyll notepad
 ---
+
+Jekyll을 탐구하는 곳 입니다.
 
 ## something
 

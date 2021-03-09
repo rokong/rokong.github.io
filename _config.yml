@@ -17,9 +17,10 @@ minimal_mistakes_skin    : "air" # "air", "aqua", "contrast", "dark", "dirt", "n
 # Site Settings
 locale                   : "ko-KR"
 title                    : "전략처럼 행동하기"
-title_separator          : "-"
+title_separator          : "|"
 subtitle                 : "Do Things Strategically"
 name                     : "임홍록"
+name_en                  : "Hongrok Lim"
 description              : "Hongrok Lim, @rokong"
 url                      : "https://rokong.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
@@ -277,7 +278,7 @@ defaults:
       type: posts
     values:
       layout: single
-      author_profile: true
+      author_profile: false
       read_time: true
       toc: true
       toc_sticky: true
