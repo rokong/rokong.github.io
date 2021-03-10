@@ -41,6 +41,14 @@
   + .list__item .archive__item-title {
     margin-top: 0.5em;
   }
+
+  a {
+    text-decoration: none;
+    padding: 0.25em 0;
+    padding-left: 0.5em;
+    border-left: 1px solid #cecfd1;
+    border-bottom: 1px solid #cecfd1;
+  }
 }
 
 .archive__item-title {

@@ -38,15 +38,15 @@ body {
 .page {
   @include breakpoint($large) {
     float: right;
-    width: 100%;
+    width: calc(100% - 100px);
     //width: calc(100% - #{$right-sidebar-width-narrow});
-    padding-right: $right-sidebar-width-narrow;
+    padding-right: $right-sidebar-width-narrow + 100px;
   }
 
   @include breakpoint($x-large) {
+    width: calc(100% - 100px);
     //width: calc(100% - #{$right-sidebar-width});
-    width: 100%;
-    padding-right: $right-sidebar-width;
+    padding-right: $right-sidebar-width + 100px;
   }
 
   .page__inner-wrap {
@@ -389,12 +389,15 @@ body {
     display: -ms-flexbox;
     display: flex;
     padding: 0.25em 0;
+    padding-left: 0.5em;
     -webkit-box-pack: justify;
     -ms-flex-pack: justify;
     justify-content: space-between;
-    color: inherit;
+    //color: inherit;
     text-decoration: none;
+    border-left: 1px solid $border-color;
     border-bottom: 1px solid $border-color;
+    transition: all 0.1s ease-in-out;
   }
 }
 

@@ -38,6 +38,10 @@ h1 {
   font-size: $h-size-1;
 }
 
+h2:first-of-type {
+  margin-top: 0;
+}
+
 h2 {
   font-size: $h-size-2;
 }

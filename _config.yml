@@ -96,10 +96,8 @@ analytics:
 # Site Author
 author:
   name             : "임홍록"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : |-
-                        어떠한 선택이든 노력없인 결과가 좋을 수 없습니다.<br>
-                        인생은 선택이 아닌 내가 흘린 땀으로 빛나는 것 입니다.
+  avatar           : "/assets/images/avatar/avatar-github.png"
+  bio              : "수단과 방법보다는 전략에 관심이 많습니다"
   location         : "서울, 대한민국"
   email            : # duplicate with links "hongrr123@gmail.com"
   links:
@@ -124,6 +122,9 @@ author:
 
 # Site Footer
 footer:
+  text: |-
+          어떠한 선택이든 노력없인 결과가 좋을 수 없습니다.<br>
+          인생은 선택이 아닌 내가 흘린 땀으로 빛나는 것 입니다.
   links:
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
@@ -133,7 +134,7 @@ footer:
       # url:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/rokong"
+      # url: "https://github.com/rokong"
     - label: "GitLab"
       icon: "fab fa-fw fa-gitlab"
       # url:
@@ -281,7 +282,6 @@ defaults:
       author_profile: false
       read_time: true
       toc: true
-      toc_sticky: true
       comments: # true
       share: false # true
       related: false # true
