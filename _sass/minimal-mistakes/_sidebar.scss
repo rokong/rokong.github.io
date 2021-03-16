@@ -119,6 +119,7 @@
   vertical-align: top;
   width: 36px;
   height: 36px;
+  text-align: center;
 
   @include breakpoint($large) {
     display: block;
@@ -132,7 +133,7 @@
 
     @include breakpoint($large) {
       padding: 5px;
-      border: 1px solid $border-color;
+      border: 5px solid #0092ca;
     }
   }
 }
@@ -143,6 +144,7 @@
   padding-left: 15px;
   padding-right: 25px;
   line-height: 1;
+  text-align: center;
 
   @include breakpoint($large) {
     display: block;
@@ -299,11 +301,12 @@
 
   li {
     white-space: nowrap;
+    margin-bottom: 0;
   }
 
   a {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 0;
     padding-right: 5px;
     padding-top: 2px;
     padding-bottom: 2px;

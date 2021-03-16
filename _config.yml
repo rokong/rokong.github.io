@@ -97,7 +97,7 @@ analytics:
 author:
   name             : "임홍록"
   avatar           : "/assets/images/avatar/avatar-github.png"
-  bio              : "수단과 방법보다는 전략에 관심이 많습니다"
+  bio              : "수단과 방법보다는<br>전략이라고 말하는거지"
   location         : "서울, 대한민국"
   email            : # duplicate with links "hongrr123@gmail.com"
   links:
@@ -279,9 +279,12 @@ defaults:
       type: posts
     values:
       layout: single
-      author_profile: false
+      author_profile: true
       read_time: true
       toc: true
+      toc_sticky: true
       comments: # true
       share: false # true
       related: false # true
+      show_date: true
+
