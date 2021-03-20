@@ -1,10 +1,11 @@
 ---
-title: "데비안(Debian)을 설치했다"
 date: 2021-03-18 23:49:00 +0900
+title: "데비안(Debian)을 설치했다"
+excerpt: 데스크톱 운영체제(OS)로 리눅스를 설치해본 경험담
+header:
+  overlay_image: https://user-images.githubusercontent.com/59322692/111863557-b25a4d80-899f-11eb-95de-d9e226a50e94.png
 categories: linux debian
 ---
-
-가상머신(VM)에서가 아니라 데스크톱 운영체제(OS)로 리눅스를 설치해본 후기 입니다.
 
 ## 어쩌다 그런 생각을...
 
@@ -25,9 +26,9 @@ categories: linux debian
 설치를 하면서 여러 사이트나 블로그를 뒤져봤는데, 신기하게도 공식 사이트들의 수준이 굉장히 높았다. 데비안은 installer가 편하게
 되어있으니 여기 있는 문서 한번 쯤은 훑어보고 설치를 시작하는 것도 나쁘지 않을 것 같다.
 
-### [한국 데비안 사용자 모임](https://wiki.debianusers.or.kr/index.php?title=%EB%8D%B0%EB%B9%84%EC%95%88_10(buster)_%EC%84%A4%EC%B9%98)
+### [위키 - 데비안 10(buster) 설치](https://wiki.debianusers.or.kr/index.php?title=%EB%8D%B0%EB%B9%84%EC%95%88_10(buster)_%EC%84%A4%EC%B9%98)
 
-https://wiki.debianusers.or.kr 에 나와있는 설치 가이드이다. 기업이 아니라 오픈소스 생태계에 있는 거라 가이드문서이긴 한데도 정감이 묻어난다.
+[한국 데비안 사용자 모임](https://wiki.debianusers.or.kr) 에 나와있는 설치 가이드이다. 기업이 아니라 오픈소스 생태계에 있어서 그런지 정감이 묻어난다.
 요즘 새로운 서비스나 프로그래밍 언어 찾아보면 마치 이걸 사용하기만 하면 모든 것이 해결이라도 될 듯 잔뜩 홍보만 해서 진짜 그런지 생각하느라
 골머리가 아픈 적이 많았다. 그러나 이 문서는 마치 이웃께서 알려주는 동네정보 같이 담백하고, 샹냥하고, 친절하다. 너무 노골적으로 데비안만
 강조 하는 뉘앙스가 아닌데, 중간중간에 보면 '윈도우 같은거 있니? 그거 참 편하더라' 라는 느낌처럼 솔직한 매력이 있다.

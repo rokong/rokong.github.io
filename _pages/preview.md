@@ -1,5 +1,5 @@
 ---
-layout: posts
 title: About
+layout: posts
 permalink: /preview/
 ---

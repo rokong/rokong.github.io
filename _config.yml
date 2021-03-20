@@ -288,4 +288,6 @@ defaults:
       share: false # true
       related: false # true
       show_date: true
-
+      header:
+        overlay_filter: 0.4
+        caption: "&copy; [**rokong**](https://rokong.github.io)"

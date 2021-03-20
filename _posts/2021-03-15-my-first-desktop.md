@@ -1,8 +1,8 @@
 ---
-title: "나의 첫번째 컴퓨터"
 date: 2021-03-15 23:16:54 +0900
-categories: diary computer
 last_modified_at: 2021-03-18 23:12:17 +0900
+title: "나의 첫번째 컴퓨터"
+categories: diary computer
 ---
 
 10년 넘은 CPU, 처음보는 그래픽카드 그리고 두 개의 4GB RAM.
