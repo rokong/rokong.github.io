@@ -99,7 +99,8 @@ fieldset {
   widows: 3;
 }
 
-ul {
+ul,
+ol {
   padding-left: 1.5em;
 }
 
@@ -222,12 +223,12 @@ figure {
   -webkit-box-align: start;
   align-items: flex-start;
   flex-wrap: wrap;
-  margin: 2em 0;
+  margin: 0.5em 0;
 
   img,
   iframe,
   .fluid-width-video-wrapper {
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
   }
 
   img {
@@ -275,6 +276,7 @@ figcaption {
   color: $muted-text-color;
   font-family: $caption-font-family;
   font-size: $type-size-6;
+  padding-left: 0.5em;
 
   a {
     -webkit-transition: $global-transition;

@@ -1,7 +1,10 @@
 ---
 date: 2021-03-15 23:16:54 +0900
 last_modified_at: 2021-03-18 23:12:17 +0900
-title: "나의 첫번째 컴퓨터"
+title: "나의 첫번째 데스크톱"
+excerpt: 부품 중에서 케이스가 가장 비싸다
+header:
+  overlay_image: https://user-images.githubusercontent.com/59322692/111871299-873a2300-89cc-11eb-88a7-a7e3461803ad.jpeg
 categories: diary computer
 ---
 

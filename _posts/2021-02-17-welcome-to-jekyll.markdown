@@ -6,6 +6,57 @@ categories: jekyll notepad
 
 Jekyll을 탐구하는 곳 입니다.
 
+## post's prefix skeleton
+
+### 사진 있을 때
+```yaml
+---
+date: 2021-03-15 23:16:54 +0900
+last_modified_at: 2021-03-18 23:12:17 +0900
+title: "나의 첫번째 데스크톱"
+excerpt: 부품 중에서 케이스가 가장 비싸다
+header:
+  overlay_image: https://user-images.githubusercontent.com/59322692/111871299-873a2300-89cc-11eb-88a7-a7e3461803ad.jpeg
+categories: diary computer
+---
+```
+
+### 텍스트만
+```yaml
+---
+date: 2021-03-20 22:56:00 +0900
+title: "데비안에 펌웨어 설치하기"
+excerpt: 네트워크도 안 되는데 펌웨어를 설치할 일이 생겼다
+categories: linux debian
+---
+```
+
+## notice block
+
+**ProTip:** Be sure to remove `/docs` and `/test` if you forked Minimal Mistakes. These folders contain documentation and test pages for the theme and you probably don't want them littering up your repo.
+{: .notice}
+
+```text
+**ProTip:** Be sure to remove `/docs` and `/test` if you forked Minimal Mistakes. These folders contain documentation and test pages for the theme and you probably don't want them littering up your repo.
+{: .notice}
+```
+
+**Notice Primary** : This is notice--primary block
+{: .notice--primary}
+
+**Notice Info** : This is notice--info block
+{: .notice--info}
+
+**Notice Warning** : This is notice--warning block
+{: .notice--warning}
+
+**Notice Success** : This is notice--success block
+{: .notice--success}
+
+**Notice Danger** : This is notice--danger block
+{: .notice--danger}
+
+
 ## something
 
 You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
