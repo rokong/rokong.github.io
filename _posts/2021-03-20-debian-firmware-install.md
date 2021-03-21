@@ -43,8 +43,8 @@ categories: linux debian
 
 다른 컴퓨터에서 펌웨어를 다운로드 받아 가져온다.
 
-1. [데비안 펌웨어 이미지](https://cdimage.debian.org/cdimage/unofficial/non-free/firmware/) 접속
-1. 필요한 데비안 버전에 맞게 `firmware.tar.gz` 다운로드 (Debian 10은 buster이다)
+1. [데비안 펌웨어 이미지](https://cdimage.debian.org/cdimage/unofficial/non-free/firmware/) 중 필요한 버전 찾기 (Debian 10은 buster)
+1. `current/`에 있는 `firmware.tar.gz` 다운로드
 1. USB에 zip 파일 복사
 
 ### USB 마운트 및 복사

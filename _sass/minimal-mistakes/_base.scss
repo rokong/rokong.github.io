@@ -99,11 +99,6 @@ fieldset {
   widows: 3;
 }
 
-ul,
-ol {
-  padding-left: 1.5em;
-}
-
 /* abbreviations */
 
 abbr[title],
@@ -206,7 +201,12 @@ ol li {
 
 li ul,
 li ol {
-  margin-top: 0.5em;
+  margin-top: 0em;
+}
+
+ul,
+ol {
+  padding-left: 1em;
 }
 
 /*
