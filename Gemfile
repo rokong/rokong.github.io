@@ -13,7 +13,7 @@ source "https://rubygems.org"
 # uncomment the line below. To upgrade, run `bundle update github-pages`.
 # gem "github-pages", group: :jekyll_plugins
 
-gem "jekyll"
+gem "jekyll", "~> 3.8"
 gem "minimal-mistakes-jekyll"
 gem "kramdown-parser-gfm"
 

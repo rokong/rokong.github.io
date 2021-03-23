@@ -90,7 +90,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  jekyll
+  jekyll (~> 3.8)
   jekyll-archives
   kramdown-parser-gfm
   minimal-mistakes-jekyll
@@ -99,4 +99,4 @@ DEPENDENCIES
   wdm (~> 0.1.1)
 
 BUNDLED WITH
-   2.2.11
+   2.2.14
