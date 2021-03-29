@@ -4,7 +4,7 @@ title: "Java enum 실전 활용"
 excerpt: 조건문과 반복문 대신 나름 객체지향적인 개발을 해볼까 한다
 header:
   overlay_image: https://user-images.githubusercontent.com/59322692/112025531-99f15b00-8b78-11eb-83cf-0e5ae48c02b1.png
-category: java
+categories: java
 ---
 
 대형 SI 프로젝트에서 나는 평소대로 노가다스럽게 복사 붙여넣기를 하고 있었다.
