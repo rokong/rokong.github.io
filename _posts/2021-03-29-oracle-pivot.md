@@ -1,5 +1,6 @@
 ---
 date: 2021-03-29 23:45:00 +0900
+last_modified_at: 2021-03-31 23:33:00 +0900
 title: "Oracle PIVOT 함수 이해하기"
 excerpt: 매번 구글에 PIVOT 문법 찾지말고 한 번에 씹어먹자
 categories: sql oracle
@@ -67,7 +68,13 @@ column 이름(위에서 보면 **@** 역할)만 정하면 될 줄 알았는데, 
 *그냥 @ column 이름만 가지고 알아서 값을 찾아가면 안 되나?* 하는 생각이었지만, PIVOT으로 만들 column을 먼저 만드는 이유를 깨달았다.
 DBMS는 쿼리 실행 전 SQL Parser를 거치는데, 이 과정에서 문법(Syntax)상의 확인과 의미(Semantic)상의 확인을 한다.
 
-//TODO SQL Parser 사진
+<figure style="width:60%">
+  <img src="https://docs.oracle.com/database/121/TGSQL/img/GUID-476CEA3E-17B5-454F-AD82-CF3FC19D81B1-default.gif"
+       alt="content_01">
+  <figcaption>SQL Parser 진행과정&emsp;/&emsp;<a href="https://docs.oracle.com/database/121/TGSQL/tgsql_sqlproc.htm">출처 : docs.oracle.com</a></figcaption>
+</figure>
+
+
 
 의미 상의 확인에서 column이 실제로 존재하는지 여부를 검증한 뒤에서야 쿼리가 실행되므로, 쿼리결과 데이터로 column을 정한다는 것은 순서에 맞지 않다.
 
@@ -104,7 +111,7 @@ DBMS는 쿼리 실행 전 SQL Parser를 거치는데, 이 과정에서 문법(Sy
 1. **column 이름**에서 명시적으로 생성될 column값
 1. **데이터**를 표현할 집계함수
 
-그리고 PIVOT 문법은 다음과 같다.
+그리고 `PIVOT` 문법은 다음과 같다.
 ```sql
 -- FROM ...
 PIVOT (
@@ -119,3 +126,36 @@ PIVOT (
 
 ### 예시
 
+위에서 알아본 내용을 바탕으로 `WINNER_LIST`라는 테이블을 `PIVOT`을 활용하여 조회하는 예시이다.
+
+| YEAR | QUARTER | RANK | WINNER |
+|:---:|:---:|:---:|:---:|
+| 2020 | 1 | 1 | A |
+| 2020 | 1 | 2 | B |
+| 2020 | 1 | 3 | C |
+
+| YEAR | QUARTER | FST_RANK_WINNER | SEC_RANK_WINNER | TRD_RANK_WINNER |
+|:---:|:---:|:---:|:---:|:---:|
+| 2020 | 1 | A | B | C |
+
+1. `PIVOT` 테이블에서 **column 이름** 과 **데이터** 가 될 column
+   - 모든 column들을 생각할 필요가 없다. `PIVOT` 으로 변화된 부분만 살펴본다면 **column 이름**은
+     `RANK`, **데이터**는 `WINNER`가 된다.
+1. **column 이름**에서 명시적으로 생성될 column값
+   - `RANK`로 생성될 값들은 총 3가지(1, 2, 3)이다.
+1. **데이터**를 표현할 집계함수
+   - 어차피 1건만 가져올건데 `MAX()` 함수를 사용할 것이다.
+    
+이를 `PIVOT` 문법에 대응시키면 다음과 같은 SQL을 만들 수 있다.
+
+```sql
+SELECT *
+  FROM WINNER_LIST
+ PIVOT (
+     MAX(WINNER)
+     FOR RANK
+     IN (1, 2, 3)
+)
+```
+
+`PIVOT`을 사용할 때는 항상 찾아봤었는데, 이제는 이해했으니 더이상 찾지 않아도 될 것 같다.
