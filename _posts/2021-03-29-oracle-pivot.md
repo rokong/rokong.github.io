@@ -74,8 +74,6 @@ DBMS는 쿼리 실행 전 SQL Parser를 거치는데, 이 과정에서 문법(Sy
   <figcaption>SQL Parser 진행과정&emsp;/&emsp;<a href="https://docs.oracle.com/database/121/TGSQL/tgsql_sqlproc.htm">출처 : docs.oracle.com</a></figcaption>
 </figure>
 
-
-
 의미 상의 확인에서 column이 실제로 존재하는지 여부를 검증한 뒤에서야 쿼리가 실행되므로, 쿼리결과 데이터로 column을 정한다는 것은 순서에 맞지 않다.
 
 > `PIVOT`에게 필요한 정보
@@ -134,7 +132,7 @@ PIVOT (
 | 2020 | 1 | 2 | B |
 | 2020 | 1 | 3 | C |
 
-| YEAR | QUARTER | FST_RANK_WINNER | SEC_RANK_WINNER | TRD_RANK_WINNER |
+| YEAR | QUARTER | 1등! | 2등! | 3등! |
 |:---:|:---:|:---:|:---:|:---:|
 | 2020 | 1 | A | B | C |
 
@@ -159,3 +157,88 @@ SELECT *
 ```
 
 `PIVOT`을 사용할 때는 항상 찾아봤었는데, 이제는 이해했으니 더이상 찾지 않아도 될 것 같다.
+
+## 심화
+
+기본적인 `PIVOT` 문법만 알고 있다면 구현에는 아무런 문제가 없을 것이다. 그걸 넘어 `PIVOT`을 알아가는 과정은 좀 더 능숙하게
+`PIVOT`을 사용하고자 하는 데 목적이 있다.
+
+### 여러 column을 데이터로 활용하기
+
+행을 열로 만들고 싶은 건 여러개일 때가 있다. 그렇다면 **column 데이터**를 필요한 만큼 선언하면 된다.
+
+```sql
+SELECT *
+  FROM WINNER_LIST
+ PIVOT (
+    MAX(WINNER), MAX(SCORE) /* 집계함수와 함께 여러 column을 지정할 수 있다 */
+    FOR RANK
+    IN (1, 2, 3)
+)
+```
+
+### 별칭(Alias) 사용하기
+
+별칭(Alias)은 총 세 곳에 사용할 수 있다. column 데이터(집계함수 쓰는 곳), column 값(IN 절) 그리고 PIVOT 전체.
+
+```sql
+SELECT 
+    /* B.YEAR, B.QUARTER, */ -- 사용불가
+       A.YEAR, B.QUARTER,    -- 사용가능
+       B.FST_WINNER, B.FST_SCR,
+       B.SEC_WINNER, B.SEC_SCR,
+       B.TRD_WINNER, B.TRD_SCR
+  FROM WINNER_LIST A -- 사용불가
+ PIVOT (
+    MAX(WINNER) AS WINNER, MAX(SCORE) AS SCR /* 1. column 데이터 */
+    FOR RANK
+    IN (1 AS FST, 2 AS SEC, 3 AS TRD) /* 2. column값 */
+) B /* 3. PIVOT */
+/* WHERE A.YEAR = '2021' */ -- 사용불가
+WHERE B.YEAR = '2021'       -- 사용가능
+```
+
+`SELECT` 부분을 보면 column값의 alias와 column 데이터의 alias가 snake case(_ 붙이기)로 이어지는 것을 볼 수 있다.
+그리고 주의할 점으로 `FROM`에 있는 A라는 alias는 사용이 불가능한데, PIVOT을 거치면서 그 위에 선언되었던 모든 column들은
+`PIVOT`으로 흡수되는 모양이기 때문에 B라는 alias만 사용가능하다. 마찬가지로 `WHERE`에서도 A 대신 B를 사용해야 한다.
+
+### 동적으로 column값 설정하기
+
+column값(`IN` 부분)은 쿼리에 직접 정의할 필요가 있지만, `PIVOT XML`은 그럴 필요 없이 동적으로 정의 가능하다.
+`PIVOT` 옆에 `XML`을 붙이고 `IN` 안에는 subQuery를 작성하면 된다.
+
+```sql
+SELECT YEAR, QUARTER, RANK_XML
+  FROM WINNER_LIST
+ PIVOT XML ( -- XML 붙이기
+    MAX(WINNER) AS WINNER, MAX(SCORE) AS SCR
+    FOR RANK
+    IN (SELECT distinct RANK FROM WINNER_LIST) -- SUB_QUERY 사용가능
+)
+```
+
+이를 통해 `PIVOT`으로 생성되는 값들은 전부 `CLOB` 타입의 `RANK_XML`으로 들어가게 되므로 쿼리 입장에서도 유효한 column인지
+판단할 수 있게된다. `RANK_XML`의 모양은 다음과 같다.
+```xml
+<PivotSet>
+    <items>
+        <item>
+            <column name="RANK">1</column>
+            <column name="WINNER">A</column>
+            <column name="SCR">98</column>
+        </item>
+        <item>
+            <column name="RANK">2</column>
+            <column name="WINNER">B</column>
+            <column name="SCR">92</column>
+        </item>
+        <item>
+            <column name="RANK">3</column>
+            <column name="WINNER">C</column>
+            <column name="SCR">90</column>
+        </item>
+    </items>
+</PivotSet>
+```
+
+이를 잘 parsing 한다면 유용하게 사용할 수 있을 것 같다. 그 방법은 다음 포스팅에서 소개할 예정이다.
