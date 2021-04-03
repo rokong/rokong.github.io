@@ -1,7 +1,7 @@
 ---
 date: 2021-04-01 00:17:00 +0900
 title: "Java에서 PIVOT XML 파싱하기 (1/2)"
-excerpt: PIVOT XML은 동적으로 값들을 설정할 수 있다. Java에서 PIVOT XML을 처리해보자.
+excerpt: 동적으로 값을 설정할 수 있는 PIVOT XML을 Java에서 PIVOT처럼 다뤄보자
 categories: sql oracle java
 ---
 
