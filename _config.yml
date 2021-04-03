@@ -286,7 +286,7 @@ defaults:
       toc_sticky: true
       comments: # true
       share: false # true
-      related: false # true
+      related: true # true
       show_date: true
       header:
         overlay_color: "#0092ca"
