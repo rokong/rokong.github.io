@@ -2,6 +2,8 @@
 main:
   - title: "테마 가이드"
     url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
+  - title: "DBR Viewer"
+    url: /dbr/
   - title: "About"
     url: /about/
   # - title: "Sample Posts"
