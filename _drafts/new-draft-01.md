@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: posts
 title:  "New Draft"
 date:   2021-02-25 23:40:42 +0900
 ---

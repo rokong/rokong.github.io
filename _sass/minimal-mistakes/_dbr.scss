@@ -1,0 +1,72 @@
+/* ==========================================================================
+   DBR
+   ========================================================================== */
+
+// TODO dbr-list-template
+.layout--dbr-list-template{
+
+  .archive{
+    width: 100%;
+    margin: 0;
+  }
+
+  .magazine_info{
+    margin: 1em 0;
+
+    p{
+      margin: 0;
+      line-height: 1.2;
+      font-family: $header-font-family;
+
+      &.img{
+        display: none;
+      }
+
+      &.num{
+        font-size: $h-size-3;
+      }
+
+      &.title{
+        font-weight: bold;
+        font-size: $h-size-1;
+        margin-bottom: 0.5em;
+      }
+
+      &.con{
+        color: $muted-text-color;
+      }
+    }
+  }
+
+  .article_list{
+    li{
+      margin-bottom: 0;
+
+      a{
+        text-decoration: none;
+        font-family: $sans-serif-narrow;
+
+        .category{
+          color: $primary-color;
+        }
+
+        .title{
+          font-weight: bold;
+        }
+
+        .name{
+          opacity: 0.5;
+        }
+      }
+
+    }
+  }
+
+  .pagination{
+    padding-top: 0;
+  }
+
+  .page__footer{
+    margin-top: 2em;
+  }
+}

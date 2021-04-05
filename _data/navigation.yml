@@ -1,11 +1,11 @@
 # main links
 main:
-  - title: "테마 가이드"
-    url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
-  - title: "DBR Viewer"
-    url: /dbr/
   - title: "About"
     url: /about/
+  - title: "DBR Viewer"
+    url: /dbr/
+  - title: "테마 가이드"
+    url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
   # - title: "Sample Posts"
   #   url: /year-archive/
   # - title: "Sample Collections"
