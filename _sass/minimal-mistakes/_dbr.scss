@@ -2,13 +2,15 @@
    DBR
    ========================================================================== */
 
-// TODO dbr-list-template
-.layout--dbr-list-template{
-
+// for all dbr layout
+body[class*="layout--dbr"] {
   .archive{
     width: 100%;
     margin: 0;
   }
+}
+
+.layout--dbr-archive-pub{
 
   .magazine_info{
     margin: 1em 0;
@@ -39,6 +41,10 @@
   }
 
   .article_list{
+    ul:first-child{
+      margin-top: 0;
+    }
+
     li{
       margin-bottom: 0;
 
@@ -69,4 +75,42 @@
   .page__footer{
     margin-top: 2em;
   }
+}
+
+.layout--dbr-single-pub{
+  .page__lead{
+    margin-bottom: 0;
+  }
+
+  .archive{
+    .img-wrapper {
+      border: 1px gray solid;
+      border-radius: 0.5em;
+      color: transparent;
+      width: 75%;
+      margin: auto;
+      cursor: pointer;
+      overflow: hidden;
+      min-height: 3.5em;
+    }
+  }
+
+  .page__related{
+    width: 100%;
+    padding-top: 0;
+
+    .page__related-title{
+      font-size: $h-size-3;
+
+      a{
+        text-decoration: underline;
+      }
+    }
+
+    .grid__item .archive__item-title{
+      font-size: $type-size-5;
+    }
+  }
+
+
 }

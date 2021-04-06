@@ -1,25 +1,24 @@
 ---
 layout: default
 author_profile: false
+read_time: false
 ---
-
-<!-- TODO dbr-list-template -->
 
 {% include page__hero.html %}
 
 <div id="main" role="main">
     <div class="archive">
-        <aside class="sidebar__right {% if page.toc_sticky %}sticky{% endif %}">
+        <aside class="sidebar__right sticky">
             <nav class="toc">
                 <header>
                     <h4 class="nav__title">
-                        <i class="fas fa-{{ page.toc_icon | default: 'file-alt' }}"></i>
+                        <i class="fas fa-file-alt"></i>
                         최근 본 글들
                     </h4>
                 </header>
                 <ul class="toc__menu">
-                    <li><a href="#개선하고-싶은-것들">뉴노멀 시대 직장인들, 매일 재택 원할까? 코로나19 이후의 사무실은 ‘하이브리드’</a></li>
-                    <li><a href="#111">“H는 묵음이야”의 그 아몬드 맛도, 마케팅도 ‘바프 스타일’ 신화를 쓰다</a></li>
+                    <li><a href="{{ 'dbr-single-pub' | relative_url }}">뉴노멀 시대 직장인들, 매일 재택 원할까? 코로나19 이후의 사무실은 ‘하이브리드’</a></li>
+                    <li><a href="{{ 'dbr-single-pub' | relative_url }}">“H는 묵음이야”의 그 아몬드 맛도, 마케팅도 ‘바프 스타일’ 신화를 쓰다</a></li>
                 </ul>
             </nav>
         </aside>
@@ -39,31 +38,31 @@ author_profile: false
             -->
             <div class="article_list">
                 <ul>
-                    <li><a href="https://dbr.donga.com/article/view/1201/article_no/9988/ac/magazine">
+                    <li><a href="{{ 'dbr-single-pub' | relative_url }}">
                         <span class="category">인사/조직</span>
                         <span class="title">시대가 묻고 일터가 답하다</span>
                         <span class="name">김현진</span>
                     </a>
                     </li>
-                    <li><a href="https://dbr.donga.com/article/view/1201/article_no/9989/ac/magazine">
+                    <li><a href="{{ 'dbr-single-pub' | relative_url }}">
                         <span class="category">인사/조직</span>
                         <span class="title">원격 협업 시대 전자서명 시장이 뜬다</span>
                         <span class="name">권준혁 </span>
                     </a>
                     </li>
-                    <li><a href="https://dbr.donga.com/article/view/1202/article_no/9990/ac/magazine">
+                    <li><a href="{{ 'dbr-single-pub' | relative_url }}">
                         <span class="category">마케팅/세일즈</span>
                         <span class="title">접대도 영업 전략… 초기에 감동을 줘라</span>
                         <span class="name">김진환 </span>
                     </a>
                     </li>
-                    <li><a href="https://dbr.donga.com/article/view/1205/article_no/9991/ac/magazine">
+                    <li><a href="{{ 'dbr-single-pub' | relative_url }}">
                         <span class="category">재무회계</span>
                         <span class="title">CVC 윈윈 하려면 스타트업 기술 보호해야</span>
                         <span class="name">강신형</span>
                     </a>
                     </li>
-                    <li><a href="https://dbr.donga.com/article/view/1306/article_no/9992/ac/magazine">
+                    <li><a href="{{ 'dbr-single-pub' | relative_url }}">
                         <span class="category">리더십</span>
                         <span class="title">경영자 보상 컨설턴트는 공정한가</span>
                         <span class="name">김진욱</span>
@@ -71,31 +70,31 @@ author_profile: false
                     </li>
                 </ul>
                 <ul>
-                    <li><a href="https://dbr.donga.com/article/view/1201/article_no/9993/ac/magazine">
+                    <li><a href="{{ 'dbr-single-pub' | relative_url }}">
                         <span class="category">인사/조직</span>
                         <span class="title">“집에서 일하다가 3차원 가상 회의실로 ‘홀로그래픽 오피스’가 업무의 틀 바꾼다”</span>
                         <span class="name">김윤진</span>
                     </a>
                     </li>
-                    <li><a href="https://dbr.donga.com/article/view/1201/article_no/9994/ac/magazine">
+                    <li><a href="{{ 'dbr-single-pub' | relative_url }}">
                         <span class="category">인사/조직</span>
                         <span class="title">“나무-꽃을 사무실에 들여놔 보세요 에너지 넘치는 멋진 일이 일어납니다”</span>
                         <span class="name">김윤진</span>
                     </a>
                     </li>
-                    <li><a href="https://dbr.donga.com/article/view/1201/article_no/9995/ac/magazine">
+                    <li><a href="{{ 'dbr-single-pub' | relative_url }}">
                         <span class="category">인사/조직</span>
                         <span class="title">일본 지하철역 1인용 박스 오피스 인기 미술관, 사우나, 열차도 사무실로 변신 중</span>
                         <span class="name">정희선</span>
                     </a>
                     </li>
-                    <li><a href="https://dbr.donga.com/article/view/1201/article_no/9996/ac/magazine">
+                    <li><a href="{{ 'dbr-single-pub' | relative_url }}">
                         <span class="category">인사/조직</span>
                         <span class="title">“도심 아닌 집 근처 카페 같은 사무실 일과 삶, 모호한 경계에서 효율성-만족도 쑥쑥”</span>
                         <span class="name">김윤진</span>
                     </a>
                     </li>
-                    <li><a href="https://dbr.donga.com/article/view/1202/article_no/9997/ac/magazine">
+                    <li><a href="{{ 'dbr-single-pub' | relative_url }}">
                         <span class="category">마케팅/세일즈</span>
                         <span class="title">한국 등 아시아 공유 오피스 시장은 성장 임대 아닌 플랫폼 비즈니스로 승부 건다</span>
                         <span class="name">이강민</span>
@@ -103,31 +102,31 @@ author_profile: false
                     </li>
                 </ul>
                 <ul>
-                    <li><a href="https://dbr.donga.com/article/view/1201/article_no/9998/ac/magazine">
+                    <li><a href="{{ 'dbr-single-pub' | relative_url }}">
                         <span class="category">인사/조직</span>
                         <span class="title">뉴노멀 시대 직장인들, 매일 재택 원할까? 코로나19 이후의 사무실은 ‘하이브리드’</span>
                         <span class="name">크리스틴 콩던 </span>
                     </a>
                     </li>
-                    <li><a href="https://dbr.donga.com/article/view/1202/article_no/9999/ac/magazine">
+                    <li><a href="{{ 'dbr-single-pub' | relative_url }}">
                         <span class="category">마케팅/세일즈</span>
                         <span class="title">“H는 묵음이야”의 그 아몬드 맛도, 마케팅도 ‘바프 스타일’ 신화를 쓰다</span>
                         <span class="name">이규열</span>
                     </a>
                     </li>
-                    <li><a href="https://dbr.donga.com/article/view/1206/article_no/10000/ac/magazine">
+                    <li><a href="{{ 'dbr-single-pub' | relative_url }}">
                         <span class="category">경영일반</span>
                         <span class="title">AI 시대에, 경영학 박사만 경영대 교수 돼야 하나</span>
                         <span class="name">조동성</span>
                     </a>
                     </li>
-                    <li><a href="https://dbr.donga.com/article/view/1205/article_no/10001/ac/magazine">
+                    <li><a href="{{ 'dbr-single-pub' | relative_url }}">
                         <span class="category">재무회계</span>
                         <span class="title">종속-관계기업 구분하는 지배력 기준 논란</span>
                         <span class="name">최종학</span>
                     </a>
                     </li>
-                    <li><a href="https://dbr.donga.com/article/view/1303/article_no/10002/ac/magazine">
+                    <li><a href="{{ 'dbr-single-pub' | relative_url }}">
                         <span class="category">자기계발</span>
                         <span class="title">1주일에 단 1시간… ‘스포츠 아워’의 마법</span>
                         <span class="name">김유겸</span>
@@ -135,7 +134,7 @@ author_profile: false
                     </li>
                 </ul>
                 <ul>
-                    <li><a href="https://dbr.donga.com/article/view/1305/article_no/10003/ac/magazine">
+                    <li><a href="{{ 'dbr-single-pub' | relative_url }}">
                         <span class="category">북클럽</span>
                         <span class="title">제프 베조스, 발명과 방황 外</span>
                         <span class="name">이규열</span>
@@ -145,8 +144,7 @@ author_profile: false
             </div>
         </div>
         <!-- https://dbr.donga.com/magazine/mcontents/pub_number/317/type/list -->
+
         {% include post_pagination.html %}
     </div>
 </div>
-
-<script src="{{ '/assets/js/pages/dbr.js' | relative_url }}"></script>
