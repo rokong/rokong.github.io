@@ -10,7 +10,7 @@ body[class*="layout--dbr"] {
   }
 }
 
-.layout--dbr-archive-pub{
+[class*="layout--dbr-archive"]{
 
   .magazine_info{
     margin: 1em 0;
@@ -77,7 +77,7 @@ body[class*="layout--dbr"] {
   }
 }
 
-.layout--dbr-single-pub{
+[class*="layout--dbr-single"]{
   .page__lead{
     margin-bottom: 0;
   }

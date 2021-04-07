@@ -1,0 +1,109 @@
+---
+layout: default
+author_profile: false
+read_time: false
+---
+
+<!-- nav.toc > ul.toc__menu -->
+<template id="tocMenu">
+    <li>
+        <a href=""></a>
+    </li>
+</template>
+
+<!-- div.archive > div.article_list > ul -->
+<template id="article">
+    <li>
+        <a>
+            <span class="category"></span>
+            <span class="title"></span>
+            <span class="name"></span>
+        </a>
+    </li>
+</template>
+
+{% include page__hero.html %}
+
+<div id="main" role="main">
+    <div class="archive">
+<!--        <aside class="sidebar__right sticky">
+            <nav class="toc">
+                <header>
+                    <h4 class="nav__title">
+                        <i class="fas fa-file-alt"></i>
+                        최근 본 글들
+                    </h4>
+                </header>
+                <ul class="toc__menu">
+                </ul>
+            </nav>
+        </aside>-->
+
+        <div class="article_list">
+            <ul>
+
+            </ul>
+        </div>
+        {% include post_pagination.html %}
+    </div>
+</div>
+
+<script type="text/javascript">
+    const CORS_URL = 'https://cors-anywhere-rokong.herokuapp.com/';
+
+    function ajaxRequest(url){
+        return new Promise(function(resolve, reject){
+            let request = new XMLHttpRequest();
+            request.open('GET', url, true);
+            request.onload = function(){
+                if (this.status >= 200 && this.status < 400) {
+                    resolve(this.response);
+                }else{
+                    console.log("We reached our target server, but it returned an error");
+                }
+            }
+            request.onerror =function(){
+                console.log("There was a connection error of some sort");
+            }
+            request.send();
+        });
+    }
+
+    function getArchive(pubNumber){
+        let url = location.origin + '/assets/dbr/archive.json';
+
+        ajaxRequest(url).then(function(response){
+            return JSON.parse(response);
+        }).then(loadArchivePage);
+    }
+
+    function loadArchivePage(archive){
+        setArchiveHeader(archive);
+        setArchiveBody(archive);
+    }
+
+    function setArchiveHeader(archive){
+        document.title = archive.title + ' ' + document.title.trim();
+        document.getElementById('page-title').innerText = archive.title;
+        document.querySelector('.page__lead').innerText = getArchiveExcerpt(archive);
+        setHeaderImage(archive);
+    }
+
+    function getArchiveExcerpt(archive){
+        return `DBR ${archive.pubNumber}호 / ${archive.pubInfo}`;
+    }
+
+    function setHeaderImage(archive){
+        let header = document.querySelector('.page__hero--overlay');
+        let backgroundImage = header.style['background-image'];
+        backgroundImage = backgroundImage.replace(/url\(.*\)/g, `url('${archive.cover}')`);
+        header.style['background-image'] = backgroundImage;
+        header.style['background-size'] = '115%';
+    }
+
+    function setArchiveBody(archive){
+
+    }
+
+    getArchive('');
+</script>
