@@ -70,6 +70,10 @@ body[class*="layout--dbr"] {
 
   .pagination{
     padding-top: 0;
+
+    a:visited{
+      color: inherit;
+    }
   }
 
   .page__footer{
