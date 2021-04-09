@@ -6,7 +6,9 @@ excerpt: "&nbsp;"
 header:
     overlay_image: ""
     overlay_filter: 0.4
-    caption: "&copy; [**DBR**](https://dbr.donga.com)"
+    caption: "&copy; [**Dong-A Business Review**](https://dbr.donga.com)"
+show_date: true
+date: ""
 previous:
     url: ""
 next:

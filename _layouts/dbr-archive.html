@@ -5,7 +5,7 @@ read_time: false
 ---
 
 <!-- nav.toc > ul.toc__menu -->
-<template id="tocMenu">
+<template id="tocItem">
     <li>
         <a href=""></a>
     </li>
@@ -14,13 +14,15 @@ read_time: false
 <!-- div.archive > div.article_list > ul -->
 <template id="articleEl">
     <li>
-        <a>
+        <a class="article_title">
             <span class="category"></span>
             <span class="title"></span>
             <span class="name"></span>
         </a>
     </li>
 </template>
+
+<script type="text/javascript" src="/assets/js/pages/dbr.js"></script>
 
 {% include page__hero.html %}
 
@@ -38,105 +40,15 @@ read_time: false
                 </ul>
             </nav>
         </aside>-->
-
-        <div class="article_list">
-
-        </div>
+        <div class="article_list"></div>
         {% include post_pagination.html %}
     </div>
 </div>
 
 <script type="text/javascript">
-    const CORS_URL = 'https://cors-anywhere-rokong.herokuapp.com/';
-
-    function ajaxRequest(url){
-        return new Promise(function(resolve, reject){
-            let request = new XMLHttpRequest();
-            request.open('GET', url, true);
-            request.onload = function(){
-                if (this.status >= 200 && this.status < 400) {
-                    resolve(this.response);
-                }else{
-                    console.log("We reached our target server, but it returned an error");
-                }
-            }
-            request.onerror =function(){
-                console.log("There was a connection error of some sort");
-            }
-            request.send();
-        });
-    }
-
-    function getArchive(pubId){
-        // TODO indexedDB
-        let url = location.origin + '/assets/dbr/archive.json';
-
-        ajaxRequest(url).then(function(response){
-            return JSON.parse(response);
-        }).then(setArchivePage);
-    }
-
-    function setArchivePage(pub){
-        setArchiveHeader(pub);
-        setArchiveBody(pub);
-        setArchiveFooter(pub);
-    }
-
-    function setArchiveHeader(pub){
-        document.title = pub.title + ' ' + document.title.trim();
-        document.getElementById('page-title').innerText = pub.title;
-        document.querySelector('.page__lead').innerText = getArchiveExcerpt(pub);
-        setHeaderImage(pub);
-    }
-
-    function getArchiveExcerpt(pub){
-        return `DBR ${pub.pubNumber}호 / ${pub.pubInfo}`;
-    }
-
-    function setHeaderImage(pub){
-        let header = document.querySelector('.page__hero--overlay');
-        let backgroundImage = header.style['background-image'];
-        backgroundImage = backgroundImage.replace(/url\(.*\)/g, `url('${pub.cover}')`);
-        header.style['background-image'] = backgroundImage;
-        header.style['background-size'] = '115%';
-    }
-
-    function setArchiveBody(pub){
-        let template = document.getElementById('articleEl');
-        let articleContainer = document.querySelector('.article_list');
-        let ulWrapper = document.createElement('ul');
-        let articleEl;
-
-        pub.articleList.forEach(function(article, index){
-            articleEl = document.importNode(template.content, true);
-            articleEl.querySelector('a').href = getUrlOfArticleById(pub.id, article.id);
-            articleEl.querySelector('.category').innerText = article.category;
-            articleEl.querySelector('.title').innerText = article.title;
-            articleEl.querySelector('.name').innerText = article.author;
-            ulWrapper.append(articleEl);
-        });
-
-        articleContainer.append(ulWrapper);
-    }
-
-    function getUrlOfArticleById(pubId, articleId){
-        return `${location.origin}/dbr-single/#/${pubId}/${articleId}`;
-    }
-
-    function setArchiveFooter(pub){
-        let pagination = document.querySelector('.pagination');
-        let buttons = pagination.querySelectorAll('a');
-        let pubId = parseInt(pub.id);
-
-        buttons[0].href = `${location.origin}/dbr-archive/#/${pubId-1}`;
-
-        if(pub.nextPubNumber !== ''){
-            buttons[1].className = buttons[1].className.replace('disabled', '');
-            buttons[1].href = `${location.origin}/dbr-archive/#/${pubId+1}`;
-        }else{
-            buttons[1].className += ' disabled';
-        }
-    }
-
-    getArchive('');
+    (async () => {
+        // All async code here
+        let pub = await archive.getArchive('');
+        archive.loadArchive(pub);
+    })();
 </script>

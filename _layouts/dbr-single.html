@@ -1,0 +1,89 @@
+---
+layout: default
+author_profile: false
+read_time: false
+show_date: false
+---
+
+{% include page__hero.html %}
+
+<!--
+<div class="top">
+    <h4 class="title">“집에서 일하다가 3차원 가상 회의실로
+        ‘홀로그래픽 오피스’가 업무의 틀 바꾼다”</h4>
+    <p class="publish-ho">318호(2021년 04월 Issue 1)</p>
+    <div class="author">
+        <div class="person">
+            <span class="name">김윤진</span>
+        </div>
+    </div>
+</div>
+-->
+<!--
+<i class="far fa-file-alt" aria-hidden="true"></i> 318호(2021년 04월 Issue 1)&emsp;<i class="far fa-user" aria-hidden="true"></i> **김윤진**-->
+
+<script type="text/javascript" src="/assets/js/pages/dbr.js"></script>
+
+<template id="excerpt">
+    <div>
+        <i class="far fa-file-alt" aria-hidden="true"></i>
+        <span class="pub_info"></span>&emsp;
+        <i class="far fa-user" aria-hidden="true"></i>
+        <span class="author"></span>
+    </div>
+</template>
+
+<template id="tocItem">
+    <li>
+        <a href=""></a>
+    </li>
+</template>
+
+<template id="gridItem">
+    <div class="grid__item">
+        <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+            <h2 class="archive__item-title no_toc" itemprop="headline">
+                <a class="article_title" href="" rel="permalink">
+                    <span class="category"></span>
+                    <span class="title"></span>
+                    <span class="name"></span>
+                </a>
+            </h2>
+        </article>
+    </div>
+</template>
+
+<div id="main" role="main">
+    <div class="archive">
+<!--        <aside class="sidebar__right sticky">
+            <nav class="toc">
+                <header>
+                    <h4 class="nav__title">
+                        <i class="fas fa-bars"></i>
+                        <span>
+                            &lt;!&ndash; TODO setPageTitle&ndash;&gt;
+                        </span>
+                    </h4>
+                </header>
+                <ul class="toc__menu">&lt;!&ndash; TODO tocItem &ndash;&gt;</ul>
+            </nav>
+        </aside>-->
+        <div class="article_body"></div>
+    </div>
+
+    <div class="page__related">
+        <h4 class="page__related-title">
+            <a href=""><!-- TODO pubInfo --></a>
+        </h4>
+        <div class="grid__wrapper"><!-- TODO gridItem --></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    (async () => {
+        // All async code here
+        let article = await single.getSingle('');
+        single.loadSingle(article);
+        single.loadNextSingles(article);
+    })();
+</script>
