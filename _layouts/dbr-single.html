@@ -19,10 +19,6 @@ show_date: false
     </div>
 </div>
 -->
-<!--
-<i class="far fa-file-alt" aria-hidden="true"></i> 318호(2021년 04월 Issue 1)&emsp;<i class="far fa-user" aria-hidden="true"></i> **김윤진**-->
-
-<script type="text/javascript" src="/assets/js/pages/dbr.js"></script>
 
 <template id="excerpt">
     <div>
@@ -79,7 +75,8 @@ show_date: false
     </div>
 </div>
 
-<script type="text/javascript">
+<script type="module">
+    import {single} from '/assets/js/dbr/single.js';
     (async () => {
         // All async code here
         let article = await single.getSingle('');

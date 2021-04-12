@@ -22,8 +22,6 @@ read_time: false
     </li>
 </template>
 
-<script type="text/javascript" src="/assets/js/pages/dbr.js"></script>
-
 {% include page__hero.html %}
 
 <div id="main" role="main">
@@ -45,10 +43,40 @@ read_time: false
     </div>
 </div>
 
-<script type="text/javascript">
+<script type="module">
+    import {archive} from '/assets/js/dbr/archive.js';
+    import {repo} from"/assets/js/dbr/repo.js";
+
+    //archive.updateArchive('');
+
     (async () => {
         // All async code here
-        let pub = await archive.getArchive('');
+        let pub = await archive.getArchive();
+        if(pub === undefined){
+            pub = await archive.updateArchive();
+        }
         archive.loadArchive(pub);
     })();
+
+
+
+    //repo.insert('archive', {id: 1111, pubNumber: 1234});
+
+/*    (async () => {
+        // All async code here
+        let value = await repo.getValueByKey('archive', 1111);
+        console.log(value);
+    })();*/
+
+    /*
+    repo.put('archive', {id: 1111, pubNumber: 4321});
+    */
+
+    /*
+    (async () => {
+        // All async code here
+        let value = await repo.getValueByIndex('archive', 'pubNumber', 4321);
+        console.log(value);
+    })();
+    */
 </script>
