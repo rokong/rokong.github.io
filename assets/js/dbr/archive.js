@@ -1,4 +1,4 @@
-import {repo} from "./repo.js";
+import {repo, common} from "./repo.js";
 import {single} from './single.js';
 
 export const archive = (function(){
@@ -10,7 +10,7 @@ export const archive = (function(){
     }
 
     function setHeader(pub) {
-        document.title = pub.title + ' ' + document.title.trim();
+        document.title = common.getDocumentTitle(pub.title);
         document.getElementById('page-title').innerText = pub.title;
         document.querySelector('.page__lead').innerText = getExcerpt(pub);
         document.querySelector('.page__meta-date time').innerText = pub.pubDate.replace(/(\d{4})(\d{2})(\d{2})/g, '$1.$2.$3');
@@ -35,10 +35,11 @@ export const archive = (function(){
         let articleEl;
 
         let articleContainer = document.querySelector('.article_list');
+        common.removeAllChildren(articleContainer);
 
         pub.articleList.forEach(function (article, index) {
             articleEl = document.importNode(template.content, true);
-            articleEl.querySelector('a').href = single.getUrlByIds(pub.id, article.id);
+            articleEl.querySelector('a').href = single.getUrlById(article.id);
             articleEl.querySelector('.category').innerText = article.category;
             articleEl.querySelector('.title').innerText = article.title;
             articleEl.querySelector('.name').innerText = article.author;
@@ -51,13 +52,13 @@ export const archive = (function(){
     function setFooter(pub) {
         let pagination = document.querySelector('.pagination');
         let buttons = pagination.querySelectorAll('a');
-        let pubId = parseInt(pub.id);
+        let pubNumber = parseInt(pub.pubNumber);
 
-        buttons[0].href = `${location.origin}/dbr-archive/#/${pubId - 1}`;
+        buttons[0].href = `${location.origin}/dbr-archive/#/${(pubNumber - 1)}`;
 
         if (pub.nextPubNumber !== '') {
             buttons[1].className = buttons[1].className.replace('disabled', '');
-            buttons[1].href = `${location.origin}/dbr-archive/#/${pubId + 1}`;
+            buttons[1].href = `${location.origin}/dbr-archive/#/${pubNumber + 1}`;
         } else {
             buttons[1].className += ' disabled';
         }
@@ -80,7 +81,7 @@ export const archive = (function(){
 
         //pubInfo, pubDate
         let pubInfo = html.querySelector('.magazine_info .con').innerText.trim();
-        archive['pubInfo'] = pubInfo.split('\n')[0].replace(/^발행정보 : (.*)<br>/g, '$1').trim();
+        archive['pubInfo'] = pubInfo.split('\n')[0].replace(/.* : (.*)/g, '$1').trim();
         archive['pubDate'] = pubInfo.split('\n')[1].replace(/\D/g, '').trim();
 
         let articleList = [];
@@ -88,15 +89,12 @@ export const archive = (function(){
         articleNodes.forEach(function(node){
             let article = {};
             article.id = node.href.replace(/.*article_no\/(\d+)\/ac\/magazine/g, '$1');
-            article.category = node.children[0].innerText.trim();;
-            article.title = node.children[1].innerText.replace('\n', ' ').trim();
+            article.category = node.children[0].innerText.trim();
+            article.title = node.children[1].innerText.replaceAll(/\n/g, ' ').trim();
             article.author = node.children[2].innerText.trim();
             articleList.push(article);
         });
         archive['articleList'] = articleList;
-
-        //archive id (from articleList's href)
-        archive['id'] = articleNodes[0].href.replace(/.*view\/(\d+)\/article_no\/.*/g, '$1');
 
         //prev, next pubNumber
         html = respHtml.querySelector('div.board-btn');
@@ -108,30 +106,45 @@ export const archive = (function(){
         return archive;
     }
 
+    function getArchiveFromIDB(pubNumber){
+        if(pubNumber === undefined || pubNumber === '' || pubNumber === null){
+            return repo.getMaxValue('archive');
+        }else{
+            return repo.getValueByKey('archive', pubNumber);
+        }
+    }
+
     return {
         updateArchive : function(pubNumber){
             const archiveUrl = `https://dbr.donga.com/magazine/mcontents/pub_number/${pubNumber || ''}`;
             return repo.ajax(archiveUrl).then(function(response){
                 return response;
             }).then((response) => {
-                repo.put('archive', parseArchive(response));
+                let archive = parseArchive(response);
+                repo.put('archive', archive);
+                return archive;
             });
         },
-        getArchive : function(pubNumber){
-            if(pubNumber === undefined || pubNumber === '' || pubNumber === null){
-                return repo.getMaxValue('archive');
-            }else{
-                return repo.getValueByIndex('archive', 'pubNumber', pubNumber);
-            }
+        getArchive : function (pubNumber){
+            return getArchiveFromIDB(pubNumber).then((pub)=>{
+                if(pub !== undefined){
+                    return new Promise(resolve => {resolve(pub);});
+                }else{
+                    return this.updateArchive(pubNumber);
+                }
+            });
         },
-        loadArchive : function(pub){
-            setPage(pub);
+        loadArchive : function(pubNumber){
+            this.getArchive(pubNumber).then(setPage);
         },
-        getArticleList : function(pubId){
-            return this.getArchive(pubId).then(e => {return e.articleList;});
+        getArticleList : function(pubNumber){
+            return this.getArchive(pubNumber).then(e => {return e.articleList;});
         },
-        getUrlById(pubId){
-            return `${location.origin}/dbr-archive/#/${pubId}`;
+        getUrlByPubNumber(pubNumber){
+            return `${location.origin}/dbr-archive/#/${pubNumber}`;
+        },
+        getPubNumberByHash(hash){
+            return hash.replace(/#\/(\d+).*/g, '$1');
         }
     };
 })();

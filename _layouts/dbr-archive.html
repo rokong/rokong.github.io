@@ -45,10 +45,25 @@ read_time: false
 
 <script type="module">
     import {archive} from '/assets/js/dbr/archive.js';
-    import {repo} from"/assets/js/dbr/repo.js";
 
-    //archive.updateArchive('');
+    /*
+    최초 로딩 : id가 있거나 없음
 
+     */
+
+    window.onload = function(){
+        window.onhashchange(undefined);
+    }
+
+    window.onhashchange = function(){
+        const pubNumber = archive.getPubNumberByHash(window.location.hash);
+        archive.loadArchive(pubNumber);
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    //import {repo} from"/assets/js/dbr/repo.js";
+
+    /*
     (async () => {
         // All async code here
         let pub = await archive.getArchive();
@@ -57,7 +72,7 @@ read_time: false
         }
         archive.loadArchive(pub);
     })();
-
+*/
 
 
     //repo.insert('archive', {id: 1111, pubNumber: 1234});

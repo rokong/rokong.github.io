@@ -32,17 +32,14 @@ export const repo = {
 
                 //create archive if not exists
                 if(!db.objectStoreNames.contains('archive')){
-                    let archiveStore = db.createObjectStore('archive', {keyPath:'id'});
-                    archiveStore.createIndex('pubNumber', 'pubNumber', {unique: true});
+                    let archiveStore = db.createObjectStore('archive', {keyPath:'pubNumber'});
                 }
 
                 //create single if not exists
                 if(!db.objectStoreNames.contains('singleStore')){
                     let singleStore = db.createObjectStore('single', {keyPath:'id'});
-                    singleStore.createIndex('pubId', 'pubId', {unique: false});
+                    singleStore.createIndex('pubNumber', 'pubNumber', {unique: false});
                 }
-
-                resolve(db);
             };
             request.onsuccess = function(ev){
                 resolve(ev.target.result);
@@ -126,4 +123,18 @@ export const repo = {
         });
     },
 
+};
+
+export const common = {
+    getIdByHash : function(hash){
+        return hash.replace(/#\/(\d+).*/g, '$1');
+    },
+    removeAllChildren : function(element){
+        while(element.firstChild){
+            element.firstChild.remove();
+        }
+    },
+    getDocumentTitle : function(title){
+        return `${title} | 전략처럼 행동하기`;
+    }
 };

@@ -4,6 +4,12 @@
 
 // for all dbr layout
 body[class*="layout--dbr"] {
+
+  * {
+    -webkit-transition: $global-transition;
+    transition: $global-transition;
+  }
+
   .archive{
     width: 100%;
     margin: 0;
@@ -74,8 +80,14 @@ body[class*="layout--dbr"] {
   .pagination{
     padding-top: 0;
 
-    a:visited{
-      color: inherit;
+    .pagination--pager{
+      &:visited {
+        color: unset;
+      }
+
+      &:hover {
+        @include yiq-contrasted($muted-text-color);
+      }
     }
   }
 
@@ -87,6 +99,10 @@ body[class*="layout--dbr"] {
 [class*="layout--dbr-single"]{
   .page__lead{
     margin-bottom: 0;
+
+    .fa-user{
+      margin-left: 0.75em;
+    }
   }
 
   .archive{
@@ -99,7 +115,22 @@ body[class*="layout--dbr"] {
       cursor: pointer;
       overflow: hidden;
       min-height: 3.5em;
+
+      &.loaded {
+        width: 100%;
+        height: fit-content;
+        border: 0;
+
+        img{
+          border: 1px gray solid;
+          border-radius: 0.5em;
+        }
+      }
     }
+  }
+
+  table{
+    font-size: inherit;
   }
 
   .page__related{

@@ -23,7 +23,7 @@ show_date: false
 <template id="excerpt">
     <div>
         <i class="far fa-file-alt" aria-hidden="true"></i>
-        <span class="pub_info"></span>&emsp;
+        <a class="pub_info"></a>
         <i class="far fa-user" aria-hidden="true"></i>
         <span class="author"></span>
     </div>
@@ -77,10 +77,48 @@ show_date: false
 
 <script type="module">
     import {single} from '/assets/js/dbr/single.js';
-    (async () => {
-        // All async code here
-        let article = await single.getSingle('');
-        single.loadSingle(article);
-        single.loadNextSingles(article);
+/*    (async () => {
+        single.loadSingle('9993');
     })();
+
+    (async () => {
+        let article = await single.getSingle('9993');
+        single.loadNextSingles(article);
+    })();*/
+    window.onload = function(){
+        window.onhashchange(undefined);
+    }
+
+    window.onhashchange = function(){
+        const articleId = window.location.hash.replace(/#\/(\d+).*/g, '$1');
+
+        single.loadSingle(articleId).then(() => {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            setEventOnImageWrapper();
+        });
+
+        (async () => {
+            let article = await single.getSingle(articleId);
+            single.loadNextSingles(article);
+        })();
+    }
+
+    function setEventOnImageWrapper() {
+        [].forEach.call(document.querySelectorAll("div.img-wrapper"), function (div) {
+            div.addEventListener("click", function (e) {
+                e.preventDefault();
+                if(e.currentTarget.className.indexOf('loaded') > -1){
+                    return;
+                }
+
+                //add class on wrapper
+                e.currentTarget.className += ' loaded';
+
+                //set src
+                let imgEl = div.getElementsByTagName("img")[0];
+                imgEl.setAttribute("src", imgEl.getAttribute("data-src"));
+
+            }, false);
+        });
+    }
 </script>
