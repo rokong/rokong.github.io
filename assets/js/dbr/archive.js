@@ -1,4 +1,4 @@
-import {repo, common} from "./repo.js";
+import {repo, common} from "./base.js";
 import {single} from './single.js';
 
 export const archive = (function(){
@@ -13,7 +13,11 @@ export const archive = (function(){
         document.title = common.getDocumentTitle(pub.title);
         document.getElementById('page-title').innerText = pub.title;
         document.querySelector('.page__lead').innerText = getExcerpt(pub);
-        document.querySelector('.page__meta-date time').innerText = pub.pubDate.replace(/(\d{4})(\d{2})(\d{2})/g, '$1.$2.$3');
+
+        let metaTime = document.querySelector('.page__meta-date time');
+        metaTime.setAttribute('datetime', pub.pubDate.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3T00:00:00+09:00'));
+        metaTime.innerText = pub.pubDate.replace(/(\d{4})(\d{2})(\d{2})/g, '$1.$2.$3');
+
         setHeaderImage(pub);
     }
 
@@ -81,8 +85,8 @@ export const archive = (function(){
 
         //pubInfo, pubDate
         let pubInfo = html.querySelector('.magazine_info .con').innerText.trim();
-        archive['pubInfo'] = pubInfo.split('\n')[0].replace(/.* : (.*)/g, '$1').trim();
-        archive['pubDate'] = pubInfo.split('\n')[1].replace(/\D/g, '').trim();
+        archive['pubInfo'] = pubInfo.split('\n')[0].replace(/.* : (.*)\s/g, '$1').trim();
+        archive['pubDate'] = pubInfo.replace(/\D/g, '').replace(/.*(\d{8})$/g, '$1').trim();
 
         let articleList = [];
         let articleNodes = html.querySelectorAll('.article_list ul li a');
@@ -135,7 +139,7 @@ export const archive = (function(){
             });
         },
         loadArchive : function(pubNumber){
-            this.getArchive(pubNumber).then(setPage);
+            return this.getArchive(pubNumber).then(setPage);
         },
         getArticleList : function(pubNumber){
             return this.getArchive(pubNumber).then(e => {return e.articleList;});

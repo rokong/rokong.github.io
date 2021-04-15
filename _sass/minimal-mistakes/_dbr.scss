@@ -100,8 +100,12 @@ body[class*="layout--dbr"] {
   .page__lead{
     margin-bottom: 0;
 
-    .fa-user{
-      margin-left: 0.75em;
+    &>div{
+      display: inline-block;
+
+      &#pub-info-wrapper{
+        margin-right: 0.75em;
+      }
     }
   }
 
@@ -116,12 +120,17 @@ body[class*="layout--dbr"] {
       overflow: hidden;
       min-height: 3.5em;
 
+      img{
+        display: none;
+      }
+
       &.loaded {
         width: 100%;
         height: fit-content;
         border: 0;
 
         img{
+          display: block;
           border: 1px gray solid;
           border-radius: 0.5em;
         }

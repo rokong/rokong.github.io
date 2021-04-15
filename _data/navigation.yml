@@ -2,6 +2,8 @@
 main:
   - title: "About"
     url: /about/
+  - title: "DBR"
+    url: /dbr-archive/
   - title: "DBR Viewer"
     url: /dbr/
   - title: "테마 가이드"

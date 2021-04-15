@@ -7,25 +7,16 @@ show_date: false
 
 {% include page__hero.html %}
 
-<!--
-<div class="top">
-    <h4 class="title">“집에서 일하다가 3차원 가상 회의실로
-        ‘홀로그래픽 오피스’가 업무의 틀 바꾼다”</h4>
-    <p class="publish-ho">318호(2021년 04월 Issue 1)</p>
-    <div class="author">
-        <div class="person">
-            <span class="name">김윤진</span>
-        </div>
-    </div>
-</div>
--->
-
 <template id="excerpt">
     <div>
-        <i class="far fa-file-alt" aria-hidden="true"></i>
-        <a class="pub_info"></a>
-        <i class="far fa-user" aria-hidden="true"></i>
-        <span class="author"></span>
+        <div id="pub-info-wrapper">
+            <i class="far fa-file-alt" aria-hidden="true"></i>
+            <a class="pub_info"></a>
+        </div>
+        <div id="author-wrapper">
+            <i class="far fa-user" aria-hidden="true"></i>
+            <span class="author"></span>
+        </div>
     </div>
 </template>
 
@@ -76,15 +67,9 @@ show_date: false
 </div>
 
 <script type="module">
+    import {recent} from '/assets/js/dbr/base.js';
     import {single} from '/assets/js/dbr/single.js';
-/*    (async () => {
-        single.loadSingle('9993');
-    })();
 
-    (async () => {
-        let article = await single.getSingle('9993');
-        single.loadNextSingles(article);
-    })();*/
     window.onload = function(){
         window.onhashchange(undefined);
     }
@@ -100,6 +85,13 @@ show_date: false
         (async () => {
             let article = await single.getSingle(articleId);
             single.loadNextSingles(article);
+
+            let recentArticle = {
+                "title": article.title,
+                "id": article.id,
+                "href": single.getUrlById(article.id)
+            };
+            recent.push(recentArticle);
         })();
     }
 

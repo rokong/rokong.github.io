@@ -38,7 +38,13 @@ export const repo = {
                 //create single if not exists
                 if(!db.objectStoreNames.contains('singleStore')){
                     let singleStore = db.createObjectStore('single', {keyPath:'id'});
-                    singleStore.createIndex('pubNumber', 'pubNumber', {unique: false});
+                    singleStore.createIndex('pubNumber', 'pubNumber', {unique:false});
+                }
+
+                //create recent if not exists
+                if(!db.objectStoreNames.contains('recent')){
+                    let recentStore = db.createObjectStore('recent', {autoIncrement:true});
+                    recentStore.createIndex('articleId', 'id', {unique:false});
                 }
             };
             request.onsuccess = function(ev){
@@ -52,7 +58,7 @@ export const repo = {
     },
     tx : function(mode){
         return this.db().then((db)=> {
-            let tx = db.transaction(['archive', 'single'], mode || 'readwrite');
+            let tx = db.transaction(['archive', 'single', 'recent'], mode || 'readwrite');
             tx.onerror = function (ev) {
                 console.error('failed to add into indexedDB', ev);
             };
@@ -110,7 +116,52 @@ export const repo = {
                     }
                 };
                 request.onerror = function(ev){
-                    console.error('failed to get max value from indexedDB', ev);
+                    alert('failed to get max value from indexedDB', ev);
+                    reject(ev);
+                };
+            }));
+        });
+    },
+    getMinValue : function(name){
+        return this.tx('readonly').then((tx) => {
+            let objStore = tx.objectStore(name);
+            return new Promise(((resolve, reject) => {
+                let request = objStore.openCursor(null, 'next');
+                request.onsuccess = function(ev){
+                    let cursor = ev.target.result;
+                    if(cursor){
+                        resolve(cursor.value);
+                    }else{
+                        resolve();
+                    }
+                };
+                request.onerror = function(ev){
+                    alert('failed to get min value from indexedDB', ev);
+                    reject(ev);
+                };
+            }));
+        });
+    },
+    getTopOf : function(name, n){
+        return this.tx('readonly').then((tx) => {
+            let objStore = tx.objectStore(name);
+            return new Promise(((resolve, reject) => {
+                let objectList = [];
+                let request = objStore.openCursor(null, 'prev');
+                request.onsuccess = function(ev){
+                    let cursor = ev.target.result;
+
+                    if(objectList.length >= n){
+                        resolve(objectList);
+                    }else if(cursor){
+                        objectList.push(cursor.value);
+                        cursor.continue();
+                    }else{
+                        resolve(objectList);
+                    }
+                };
+                request.onerror = function(ev){
+                    alert('failed to get top of n value from indexedDB', ev);
                     reject(ev);
                 };
             }));
@@ -136,5 +187,22 @@ export const common = {
     },
     getDocumentTitle : function(title){
         return `${title} | 전략처럼 행동하기`;
+    }
+};
+
+export const recent = {
+    displayCount: 3,
+    push : function(article){
+        repo.getValueByIndex('recent', 'articleId', article.id).then((e)=>{
+            if(e === undefined){
+                repo.insert('recent', article);
+            }else{
+                //TODO delete then insert
+            }
+        });
+
+    },
+    get : function(n){
+        return repo.getTopOf('recent',n || this.displayCount);
     }
 };

@@ -5,6 +5,19 @@ read_time: false
 ---
 
 <!-- nav.toc > ul.toc__menu -->
+<template id="toc">
+    <nav class="toc">
+        <header>
+            <h4 class="nav__title">
+                <i class="fas fa-file-alt"></i>
+                최근 본 글들
+            </h4>
+        </header>
+        <ul class="toc__menu">
+        </ul>
+    </nav>
+</template>
+
 <template id="tocItem">
     <li>
         <a href=""></a>
@@ -26,42 +39,68 @@ read_time: false
 
 <div id="main" role="main">
     <div class="archive">
-<!--        <aside class="sidebar__right sticky">
-            <nav class="toc">
-                <header>
-                    <h4 class="nav__title">
-                        <i class="fas fa-file-alt"></i>
-                        최근 본 글들
-                    </h4>
-                </header>
-                <ul class="toc__menu">
-                </ul>
-            </nav>
-        </aside>-->
+        <aside class="sidebar__right sticky">
+
+        </aside>
         <div class="article_list"></div>
         {% include post_pagination.html %}
     </div>
 </div>
 
 <script type="module">
+    import {common, recent} from '/assets/js/dbr/base.js';
     import {archive} from '/assets/js/dbr/archive.js';
-
-    /*
-    최초 로딩 : id가 있거나 없음
-
-     */
 
     window.onload = function(){
         window.onhashchange(undefined);
+        loadRecent();
     }
 
     window.onhashchange = function(){
         const pubNumber = archive.getPubNumberByHash(window.location.hash);
-        archive.loadArchive(pubNumber);
-        window.scrollTo({top: 0, behavior: 'smooth'});
+        (async () => {
+            await archive.loadArchive(pubNumber);
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        })();
     }
 
-    //import {repo} from"/assets/js/dbr/repo.js";
+    function loadRecent(){
+        //get or create toc
+        let toc = document.querySelector('.toc');
+        if(toc == null){
+            let tocTemplate = document.getElementById('toc');
+            toc = document.importNode(tocTemplate.content, true);
+            toc = toc.querySelector('.toc');
+        }
+
+        (async () => {
+            let recentArticles = await recent.get(recent.displayCount);
+            if(recentArticles.length === 0){
+                return;
+            }
+
+            //clear tocMenu
+            let tocMenu = toc.querySelector('.toc__menu');
+            let template = document.getElementById('tocItem');
+            let item;
+
+            common.removeAllChildren(tocMenu);
+            recentArticles.forEach((article) => {
+                item = document.importNode(template.content, true);
+                item.querySelector('a').setAttribute('href', article.href);
+                item.querySelector('a').innerText = article.title;
+                tocMenu.append(item);
+            });
+            toc.append(tocMenu);
+
+            //show toc
+            if(document.querySelector('.toc') == null){
+                document.querySelector('.sidebar__right').append(toc);
+            }
+        })();
+    }
+
+    //import {repo} from"/assets/js/dbr/base.js";
 
     /*
     (async () => {

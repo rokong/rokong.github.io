@@ -1,4 +1,4 @@
-import {repo, common} from "./repo.js";
+import {repo, common} from "./base.js";
 import {archive} from './archive.js';
 
 export const single = (function(){
@@ -16,18 +16,26 @@ export const single = (function(){
         document.getElementById('page-title').innerText = article.title;
 
         let pageLead = document.querySelector('.page__lead');
-        common.removeAllChildren(pageLead);
-        pageLead.append(getExcerpt(article));
+        pageLead.innerHTML = getExcerptHTML(article);
     }
 
-    function getExcerpt(article){
+    function getExcerptHTML(article){
         let template = document.getElementById('excerpt');
         let excerpts = document.importNode(template.content, true);
+
         let pubInfo = excerpts.querySelector('.pub_info');
         pubInfo.setAttribute('href', archive.getUrlByPubNumber(article.pubNumber));
         pubInfo.innerText = article.pubInfo;
-        excerpts.querySelector('.author').innerText = article.author;
-        return excerpts.querySelector('div');
+
+        if(article.author !== ''){
+            excerpts.querySelector('.author').innerText = article.author;
+        }else{
+            //if author is empty, remove author
+            excerpts.querySelector('.author').remove();
+            excerpts.querySelector('.fa-user').remove();
+        }
+
+        return excerpts.querySelector('div').innerHTML;
     }
 
     function setRelated(article, articles) {
@@ -70,7 +78,9 @@ export const single = (function(){
         single['pubInfo'] = html.querySelector('.publish-ho').innerText.trim();
         single['pubNumber'] = single['pubInfo'].replace(/^(\d+).*/g, '$1');
         single['title'] = html.querySelector('.title').innerText.replaceAll(/\n/g, ' ').trim();
-        single['author'] = html.querySelector('.author .person .name').innerText.trim();
+
+        let authorEl = html.querySelector('.author .person .name');
+        single['author'] = authorEl != null ? authorEl.innerText.trim() : '';
 
         //articleBody
         html = respHtml.querySelector('.cboth.print-word');
