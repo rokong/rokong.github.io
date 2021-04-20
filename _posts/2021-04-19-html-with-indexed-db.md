@@ -1,17 +1,22 @@
 ---
 date: 2021-04-19 22:54:00 +0900
-title: "정적인 웹페이지에 IndexedDB 활용하기"
-excerpt: 
+title: "나만의 웹페이지 UI/UX 개선하기"
+excerpt: backend가 아닌 퍼블리싱부터 시작해보는 개발 경험담
 header:
   overlay_image: https://user-images.githubusercontent.com/59322692/111871299-873a2300-89cc-11eb-88a7-a7e3461803ad.jpeg
 categories: frontend javascript
 ---
 
-
 ## DBR Viwer (1세대)
 [동아 비즈니스 리뷰](https://dbr.donga.com/), DBR을 처음 알게 된 건 대학교 1학년 경영학원론 시간이었다. 단지 경영학 이론 중 하나에 관한
 글이었음에도 이 매거진이 너무 좋았다. 입대 후에 DBR을 구독해 읽으려고 찾아보았는데, 1달에 2만원 정도 되는 금액이 당시 군인인 나에겐 좀 부담스러웠다.
 다행인건 DBR 홈페이지에서 하루 2편의 글을 제공하고 있었는데, 이를 잘만 이용하면 무한으로 즐길 수 있겠다고 생각했다. 그래서 탄생한 것이 바로 DBR Viewer(1세대)이다.
+
+<figure>
+  <img src="https://user-images.githubusercontent.com/59322692/115415400-d8d70700-a231-11eb-8273-201a37d18f52.png"
+       alt="content_01">
+  <figcaption>DBR Viewer 1세대. (좌) 발행정보, (우) 아티클</figcaption>
+</figure>
 
 ### 사양
 하나의 파일 안에 html, css 그리고 javascript까지 모두 들어있다. 발행호수 별로 아티클을 목록을 볼 수 있는 화면과 아티클을 읽는 화면 두 개로 구성되어 있다.
@@ -24,7 +29,9 @@ CORS proxy를 herokuapp으로 직접 운영하려 하는데, 시간당 request �
 또한 원래 독립적으로 호스팅되던 웹페이지를 이 블로그와 합치려는데 그렇다면 이 블로그에 맞는 디자인으로 수정하려고 한다.
 미지막으로 최근에 본 글과 다음에 읽을 글을 보여주는 편의기능도 추가하면 좋을 것 같다.
 
-//TODO : 3가지 할 일
+> - rokong.github.io 블로그에 맞는 UI로 바꾸기
+> - IndexedDB를 활용한 CORS proxy 요청 수 줄이기
+> - 최근에 본 글, 다음에 읽을 글 보여주기
 
 ## 	UI 개선과정
 
@@ -52,13 +59,30 @@ frontend에서 봤을 때 1세대에서 2세대로의 가장 큰 변화는 Index
 json형태로 들고 있어야 이들을 잘 활용할 수 있을 것이다. 그래서 DBR 홈페이지에서 json을 추출하려고 하는데, 만약 그렇게 하게 된다면 frontend에서
 backend로의 개발과정을 벗어나버린다. 이 문제를 해결하는 방법으로 떠올린 것이 일단 json 파일을 만드는 것이다. json으로 파싱을 했던, IndexedDB에다
 캐싱을 했던 간에 javascript 입장에서는 결국엔 json 형식의 데이터를 전달받을 뿐이다. backend의 세부 로직은 건너뛰고 발행정보와 아티클 정보를
-담고 있는 *.json 파일을 만들었다.
+담고 있는 *.json 파일을 만들었다. 그리고 일단은 1세대에서 사용하던 방식인 ajax로 json 데이터를 가져오도록 한다.
 
 // *.json -> javascript
 // DBR 홈페이지 -> html -> json -> IndexedDB -> javascript
 
 ### html template 추출
 
-화면 렌더링을 할 때 가장 기초적인 방법은 모든 html을 만들어 둔 채 json에서 뽑은 정보를 가지고 text를 집어넣는 것이다. 하지만 이 블로그에는 
-이미 공통적인 요소에 대해 탬플릿이 존재하고, 각 발행호에 따라서 아티클 목록 개수가 달라지는 등 일일이 html element를 만들기엔 귀찮다.
-일단 html element의 innerText나 setAttribute로 할 수 있는 건 한다고 치고, 이미 있거나 반복되는 element들에 대해선 html template를 활용하기로 했다.
+화면 렌더링을 할 때 가장 기초적인 방법은 모든 html을 만들어 둔 채 json에서 뽑은 정보를 가지고 text를 집어넣는 것이다. 하지만 아티클 목록 개수나
+다음에 읽을 글과 같이 json 데이터에 따라 html 자체가 달라지는 상황이 생기므로 데이터를 넣기 전에 html을 그린다는 것은 불가능하다.
+고정된 요소들은 미리 html로 그려놓는다 치고, 변할 수 있는 요소에 대해서는 [html template](https://developer.mozilla.org/ko/docs/Web/HTML/Element/template)
+을 활용하여 동적으로 생성할 계획이다.
+
+// html template을 추출한 부분
+
+### loadPage 함수와 eventListener
+
+어느정도 페이지 골격과 template까지 만들었으니 본격적으로 javascript를 통해 화면에 그릴 차례이다. 일단 이미 페이지에 그려진 html에 대해서는 
+innerText나 setAttribute 등으로 데이터를 뿌려놓았다. 동적으로 만들 부분은 아래와 같이 template를 복제하여 화면에 그려넣는다.
+
+// importNode로 template를 이용한 부분
+
+화면을 그릴 함수를 다 만들었으면 html의 eventListner에 바인드 할 차례이다. 발행정보를 보는 화면에서 페이지를 그릴 상황은 다음과 같다.
+첫번째는 처음 페이지가 로딩될 때, 두번째는 다른 발행정보를 조회할 때 이다. 나는 어떤 발행정보를 조회하는 지를 url의 hash에 넣어서 표현할 예정이기
+때문에 window.onload와 window.onhashchange에 다음과 같은 이벤트를 걸었다.
+
+//eventListener 부분
+
