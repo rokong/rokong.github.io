@@ -4,8 +4,6 @@ main:
     url: /about/
   - title: "DBR"
     url: /dbr-archive/
-  - title: "DBR Viewer"
-    url: /dbr/
   - title: "테마 가이드"
     url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
   # - title: "Sample Posts"

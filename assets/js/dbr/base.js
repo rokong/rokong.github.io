@@ -1,10 +1,10 @@
 const CORS_URL = 'https://cors-anywhere-rokong.herokuapp.com/';
 
 export const repo = {
-    ajaxRequest : function(corsURL){
-        return new Promise(function (resolve, reject) {
+    request : function(url){
+        return new Promise(function (resolve) {
             let request = new XMLHttpRequest();
-            request.open('GET', corsURL, true);
+            request.open('GET', url, true);
             request.onload = function () {
                 if (this.status >= 200 && this.status < 400) {
                     resolve(this.response);
@@ -19,7 +19,7 @@ export const repo = {
         });
     },
     ajax : function(url){
-        return this.ajaxRequest(CORS_URL+url);
+        return this.request(CORS_URL+url);
     },
     db : function(){
         const dbName = 'dbr';
