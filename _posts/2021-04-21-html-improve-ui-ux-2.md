@@ -20,13 +20,208 @@ categories: frontend javascript
 사용하던 ajax를 쓰는 것 같으면서도 IndexedDB가 제공하는 DBMS스러운 기능들도 누릴 수 있는 방식으로 개발할 생각이다. 주요 메서드를 정리하자면
 다음과 같다.
 
-- \#ajax(String url) : CORS proxy를 통한 XMLHttpRequest를 수행하게 된다
-- \#tx(String mode) : IndexedDB에 readwrite 또는 readonly로 transaction을 연다
-- \#insert(String storeName, JSON Value) : DML의 INSERT 역할
-- \#getValueByKey(String storeName, String key) : DML의 SELECT 역할. key로 한 건만 조회한다
-- \#put(String storeName, JSON value) : DML의 UPDATE 역할
+- `#ajax(String url)` : CORS proxy를 통한 XMLHttpRequest를 수행하게 된다
+- `#tx(String mode)` : IndexedDB에 readwrite 또는 readonly로 transaction을 연다
+- `#insert(String storeName, JSON Value)` : DML의 INSERT 역할
+- `#put(String storeName, JSON value)` : DML의 UPDATE 역할
+- `#getValueByKey(String storeName, String key)` : DML의 SELECT 역할. key로 한 건만 조회한다
 
 ### 비동기적인 사용법
 
-절차적인 프로그래밍 언어로 개발할 때는 
+절차적인 프로그래밍 언어로 개발할 때는 위의 코드가 모든 실행을 끝낸 다음에 아래의 코드가 실행된다. 하지만 비동기 프로그래밍은 다르다.
+비동기적인 구문을 만나면 일단 동작을 시작하고 다음줄에 있는 코드 또한 동작한다. 그렇다면 비동기 구문의 실행결과를 받은 뒤에 해야 할 코드는 어떻게 만들어야 할까?
+바로 `callback` 매서드를 작성하면 된다.
 
+IndexedDB에서 `open()`이라는 매서드가 있는데, 데이터베이스와의 connection을 만드는 역할로 비동기적으로 동작한다. 먼저 open이 되어야
+INSERT나 SELECT를 할 수 있으므로 [Promise](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+를 사용하여 callback 함수를 활용한다.
+
+```javascript
+function db(){
+    return new Promise((resolve, reject) => {
+        //connection 만들기
+        let request = indexedDB.open('dbr', 1);
+        
+        //새로 생성되거나 version이 바뀌었을 때
+        request.onupgradeneeded = function(ev){
+            let db = ev.target.result;
+            //create objectStores
+            // ...
+        };
+        
+        //connection 만들기 성공
+        request.onsuccess = function(ev){
+            resolve(ev.target.result);
+        };
+        
+        //connection 만들기 실패
+        request.onerror = function(ev){
+            console.error('failed to open indexedDB', ev);
+            reject(ev);
+        };
+    });
+}
+
+//매서드 활용 예시
+db().then(function(conn){
+    // ...
+});
+```
+
+`indexedDB.open()`을 전달받은 `request`는 connection을 가진 것이 아니라 단지 connection을 만들도록 요청한 것이다. 만약 connection을 만드는 데
+실패했다면 `request.onerror`, 성공했다면 `request.onsuccess` 라는 매서드가 실행될 것이다. 성공한 매서드의 파라미터에는
+connection(`ev.target.result`)이 담겨있고 그걸 Promise에 있는 `resolve`에 전달하면 된다. 위에서 `db()`라는 함수를 사용할 때는 `.then(...)` 으로
+`resolve`로 전달한 값을 받을 수 있다. open이라는 매서드 자체는 비동기이지만, 그걸 감싸고 있는 Promise와 이를 잇는 then 매서드는 동기적으로 작동한다.
+
+### INSERT와 UPDATE
+
+connection을 열어 transaction을 만들었다면 그 다음은 쉽다. 수정하고자 하는 `objectStore`를 가져와서 다음과 같이 사용하면 된다.
+```javascript
+//transaction 만들기
+function tx(){
+  // db()로 connection을 만든다.
+  return db().then((db)=> {
+    //transaction의 첫번째 parameter에는 필요한 objectStore들을 넣으면 된다.
+    let tx = db.transaction(['archive', 'single', 'recent'], 'readwrite');
+    tx.onerror = function (ev) {
+      console.error('failed to add into indexedDB', ev);
+    };
+    return tx;
+  });
+}
+
+//storeName으로 가져온다.
+let objStore = tx().objectStore('archive');
+
+let value = {"pubNumber": 319, "title": 'New Wave of Logistics'};
+objStore.add(value);    //INSERT
+objStore.put(value);    //UPDATE
+
+//주의 : 특정 keyPath나 index key 값이 없다면 error를 뱉어낸다.
+```
+
+### SELECT 모음집
+
+IndexedDB는 값을 조회할 수 있는 여러 방법들을 제공한다. 우선 transaction을 만들어 `storeName`으로 `objectStore`를 가져온다.
+```javascript
+//조회를 할 때는 readOnly 모드도 가능하다.
+function tx() {
+  //...
+  let tx = db.transaction(['archive', 'single', 'recent'], 'readOnly');
+  //...
+}
+
+//먼저 storeName으로 objStore를 가져온다.
+let objStore = tx().objectStore('archive');
+```
+
+이제 Promise 구문과 함께 원하는 방식대로 조회하면 된다.
+
+```javascript
+new Promise(((resolve, reject) => {
+  /** 1. key로 1건 조회할 때 */
+  let request = objStore.get(key);
+  
+  request.onsuccess = function(ev){
+    //정상적으로 조회한 경우
+    resolve(request.result);
+  };
+  request.onerror = function(ev){
+    // 오류가 발생했어요 ...
+  };
+}));
+
+
+/** 2. index key로 가져올 때 */
+// Promise 안에서 ...
+let index = objStore.index('pubDate');
+let request = index.get('20210421');
+// onsuccess, onerror 생략 ...
+
+
+/** 3. key의 최댓값 또는 최솟값 가져올 때 */
+// Promise 안에서 ...
+let request = objStore.openCursor(null, 'prev');    //prev : 최대 -> 최소
+//let request = objStore.openCursor(null, 'next');  //next : 최소 -> 최대
+
+request.onsuccess = function(ev){
+  let cursor = ev.target.result;
+  if(cursor){
+    resolve(cursor.value);  //조회된 결과가 있다면
+  }else{
+    resolve(null);          //조회된 결과가 없다면
+  }
+};
+
+
+/** 4. 상위 n개를 가져올 때 */
+return new Promise(((resolve, reject) => {
+  let objectList = [];
+  let request = objStore.openCursor(null, 'prev');  //최댓값부터 조회하기 시작한다.
+  request.onsuccess = function(ev){
+    let cursor = ev.target.result;
+
+    if(cursor){
+      // 조회된 결과가 있다면 array에 넣기
+      objectList.push(cursor.value);
+      
+      if(objectList.length < n){
+        //아직 n개 다 못 채웠다
+        cursor.continue();
+      }else{
+        // n개 반환
+        resolve(objectList);
+      }
+      
+    }else{
+      // 더이상 조회할 게 남아있지 않다면
+      resolve(objectList);
+    }
+  };
+  // onerror 생략 ...
+}));
+```
+
+## 웹페이지에서 활용하기
+
+`repo.js`를 만든건 ajax로만 데이터를 조회하던 것을 중간에 IndexedDB를 껴서 활용하고자 하는 목적이었다. 나의 구상은 다음과 같다.
+
+<figure>
+  <img src="https://user-images.githubusercontent.com/59322692/115735950-d73e4800-a3c5-11eb-9d5a-6462fa2d0bd5.png"
+       alt="content_01">
+  <figcaption>loadPage 부터 setPage 까지 발행정보를 불러오는 과정. 회색부분이 IndexedDB를 활용한 부분이다.</figcaption>
+</figure>
+
+`loadPage` 입장에서는 발행정보를 가져오고(`getArchive`) 그 정보를 화면에 보여주기(`setPage`)만 하면 된다. 이건 ajax로만 했던 방식과는
+차이가 없지만, `getArchive`에서는 IndexedDB를 활용한다는 점에서 구체적인 작동방식이 달라진다. 먼저 IndexedDB에서 해당 발행정보가 존재하는지 확인
+(`getFromIDB`)한 다음 만약 존재하지 않다면 발행정보를 추가(`addArchive`)하게 된다. 이 때 ajax로 조회한 내용을 IndexedDB에 담은 뒤(`addToIDB`)
+발행정보를 돌려준다.
+
+
+
+```javascript
+function loadPage(pubNumber){
+  return getArchive(pubNumber).then(setPage);
+}
+
+function getArchive(pubNumber){
+  return getArchiveFromIDB(pubNumber).then((pub)=>{
+    if(pub !== undefined){
+      return new Promise(resolve => {resolve(pub);});
+    }else{
+      return updateArchive(pubNumber);
+    }
+  });
+}
+
+function updateArchive(pubNumber){
+    const archiveUrl = `https://dbr.donga.com/magazine/mcontents/pub_number/${pubNumber || ''}`;
+    return repo.ajax(archiveUrl).then(function(response){
+        return response;
+    }).then((response) => {
+        let archive = parseArchive(response);
+        repo.put('archive', archive);
+        return archive;
+    });
+}
+```
