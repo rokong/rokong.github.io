@@ -12,3 +12,18 @@ main:
   #   url: /collection-archive/
   # - title: "Sitemap"
   #   url: /sitemap/
+
+# index links
+index:
+  - title: 블로그
+    children:
+     - title: "카테고리"
+       url: "/categories/"
+  - title: 북마크
+    children:
+      - title: "동아 비지니스 리뷰"
+        url: "/dbr-archive/"
+      - title: "클라우드"
+        url: ""
+      - title: "블록체인"
+        url: ""

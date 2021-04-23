@@ -63,7 +63,7 @@ DBR Viewer 1세대 에서는 DBR 홈페이지에 있는 html에서 필요한 부
   <img src="https://user-images.githubusercontent.com/59322692/115424006-3cb0fe00-a239-11eb-8219-40bb26406f0f.png"
        alt="content_04"
        style="width: 70%">
-  <figcaption>1세대 화면과 블로그 레이아웃을 참고한 퍼블리싱 전용 페이지</figcaption>
+  <figcaption>블로그 레이아웃을 참고하기 위한 퍼블리싱 전용 페이지</figcaption>
 </figure>
 
 ### json 데이터 만들기

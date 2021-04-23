@@ -9,9 +9,9 @@ categories: frontend javascript
 
 ## ajax만 써봐서 그런지
 
-군대에 있을 때 InternetExplorer 8에서도 작동하는 페이지를 개발했던 나는 ES6 문법이나 W3C 최신 표준이 어색하다. DBR Viewer 1세대에서는
+나는 ES6 문법이나 W3C 최신 표준이 어색하다. InternetExplorer 8에서도 작동하는 페이지를 개발해왔기에, DBR Viewer 1세대에서는
 데이터를 불러올 때 ajax (jQuery 없이 쓸 때는 [XMLHttpRequest](https://developer.mozilla.org/ko/docs/Web/API/XMLHttpRequest)) 
-를 사용하여 매번 요청을 보냈다. 하지만 이젠 CORS proxy에 제한이 생겨버린 request를 줄이고자 캐싱을 해야 하는데, 다행이도 [IndexedDB](https://developer.mozilla.org/ko/docs/Web/API/IndexedDB_API)
+만을 사용하여 매번 요청을 보냈다. 하지만 이젠 CORS proxy에 제한이 생겨버린 request를 줄이고자 캐싱을 해야 하는데, 다행이도 [IndexedDB](https://developer.mozilla.org/ko/docs/Web/API/IndexedDB_API)
 라는 게 존재하여 이를 활용해보기로 했다. 다만 비동기 프로그래밍이 익숙하지 않은 나란 사람을 배려하고자 라이브러리 처럼 최대한 활용하기 쉽게 구현해보기로 했다.
 
 ## repo.js
@@ -184,6 +184,8 @@ return new Promise(((resolve, reject) => {
 
 ## 웹페이지에서 활용하기
 
+### IndexedDB 들키지 않기
+
 `repo.js`를 만든건 ajax로만 데이터를 조회하던 것을 중간에 IndexedDB를 껴서 활용하고자 하는 목적이었다. 나의 구상은 다음과 같다.
 
 <figure>
@@ -197,31 +199,60 @@ return new Promise(((resolve, reject) => {
 (`getFromIDB`)한 다음 만약 존재하지 않다면 발행정보를 추가(`addArchive`)하게 된다. 이 때 ajax로 조회한 내용을 IndexedDB에 담은 뒤(`addToIDB`)
 발행정보를 돌려준다.
 
+### 실제로 개발
 
+이를 javaScript에서는 다음과 같이 구현했다.
 
 ```javascript
 function loadPage(pubNumber){
+  // 페이지를 불러오는 함수. IndexedDB가 쓰인 줄도 모른다.
   return getArchive(pubNumber).then(setPage);
 }
 
 function getArchive(pubNumber){
+  //먼저 IndexedDB에서 찾는다
   return getArchiveFromIDB(pubNumber).then((pub)=>{
     if(pub !== undefined){
+      //있다면 바로 가져오고
       return new Promise(resolve => {resolve(pub);});
     }else{
-      return updateArchive(pubNumber);
+      //없으면 IndexedDB에 추가
+      return addArchive(pubNumber);
     }
   });
 }
 
-function updateArchive(pubNumber){
+function addArchive(pubNumber){
     const archiveUrl = `https://dbr.donga.com/magazine/mcontents/pub_number/${pubNumber || ''}`;
-    return repo.ajax(archiveUrl).then(function(response){
-        return response;
-    }).then((response) => {
-        let archive = parseArchive(response);
-        repo.put('archive', archive);
-        return archive;
+    
+    //ajax로 정보를 가져오기
+    return repo.ajax(archiveUrl).then((response) => {
+        let archive = parseArchive(response);   // html에서 json을 뽑은 다음
+        repo.add('archive', archive);           // IndexedDB에 추가를 하고
+        return archive;                         // 데이터를 돌려준다
     });
 }
 ```
+
+## 끝이 아니다
+
+그동안 javaScript를 다른 절차적 프로그래밍 언어처럼 다루어 그런지 `repo.js`를 만들 때 낯선 느낌이 들었다. 어서 ES6 문법에 익숙해져서
+javaScript가 추구하는 방향대로 개발해야겠다. 앞으로 DBR Viewer 기능으로 추가하고 싶은 건 **로딩화면** 구현이다. 핑그르르 돌아가는 애니메이션을
+달거나 skeleton만 세워두고 대체하는 식으로 하던가 여러 방법은 차차 고민해볼 생각이다. 그리고 `repo.js`에서 **예외상황**을 좀 다루고 싶은데,
+지금은 일단 무조건 성공했을 때만을 가정하여 진행하고 있다. 오류가 나면 console에만 보여주지 말고 그에 따른 적절한 action들을 사용자에게
+제공해야 할 것 같다.
+
+> **앞으로의 DBR Viewer의 계획**
+> 1. 로딩화면(또는 애니메이션)이 보여집니다.
+> 1. 오류가 발생한다면 적절한 조치를 취합니다.
+
+### 아티클을 읽을 때
+
+1세대에서 2세대로 넘어가면서 빠진 것이 하나 있는데, 바로 **얼마나 읽었는지 표시** 해주는 기능이다. 그런 요소에 대한 퍼블리싱 같은건 없거니와,
+이 블로그와의 테마와도 맞추어야 하기 때문에 좀 고민을 해봐야 겠다. 그래도 javaScript로 구현은 되어있으니 디자인만 결정하기만 하면 된다.
+그리고 또 2세대에서 욕심을 내려고 하는 것은 **자동생성 목차**이다. 단순히 몇몇 html 규칙을 찾아서 적용해도 되긴 하는데, 더 정교하게 할 수도
+있을 것 같다. 예를 들어 여러 형식으로 아티클을 조회하는데 그 중에서 두드러지는 요소들을 고른다거나 딥러닝(...뇌절이다)을 통해 뽑아낸다거나.
+
+> **아티클을 더 편하게 읽어요**
+> 1. 지금 얼마나 읽었는지 실시간으로 알려줍니다.
+> 1. 아티클 목차를 정리해주고, 목차를 누르면 해당 위치로 이동합니다.
