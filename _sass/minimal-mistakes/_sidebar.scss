@@ -331,6 +331,51 @@
 }
 
 /*
+   Author Profile in About
+   ========================================================================== */
+
+#main .about-container{
+  display: block;
+  width: max-content;
+  margin-top: 1em;
+  padding-bottom: 1em;
+  border-bottom: 1px solid $border-color;
+
+  &> div > div{
+    display: table-cell;
+    vertical-align: middle;
+    width: max-content;
+  }
+
+  .author__avatar img{
+    border-radius: 0;
+    border: 0;
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    padding: 0;
+
+    @include breakpoint($large) {
+      max-width: 150px;
+    }
+  }
+
+  .author__content{
+    text-align: left;
+    padding: 0 1.5em;
+  }
+
+  .author__urls{
+    display: table-cell;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+}
+
+
+/*
    Wide Pages
    ========================================================================== */
 

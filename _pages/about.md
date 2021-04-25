@@ -1,9 +1,13 @@
 ---
-title: 반갑습니다, 임홍록이라고 합니다.
+title: 반갑습니다. 임홍록이라고 합니다.
 layout: single
 permalink: /about/
-author_profile: true
+author_profile: false
 ---
+
+<div class="about-container">
+    {% include author-profile.html %}
+</div>
 
 > 휴학생. 공공기관 SI 프로젝트 투입중.
 

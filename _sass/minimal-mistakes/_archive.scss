@@ -159,7 +159,7 @@
 }
 
 .grid__item {
-  margin-bottom: 2em;
+  margin-bottom: 1.5em;
 
   @include breakpoint($small) {
     float: left;
@@ -211,7 +211,7 @@
   }
 
   .page__meta-sep {
-    display: block;
+    display: inline-block;
 
     &::before {
       display: none;

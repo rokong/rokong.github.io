@@ -4,8 +4,8 @@ main:
     url: /about/
   - title: "DBR"
     url: /dbr-archive/
-  - title: "테마 가이드"
-    url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
+  #- title: "테마 가이드"
+  #  url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
   # - title: "Sample Posts"
   #   url: /year-archive/
   # - title: "Sample Collections"
@@ -23,7 +23,7 @@ index:
     children:
       - title: "동아 비지니스 리뷰"
         url: "/dbr-archive/"
-      - title: "클라우드"
-        url: ""
-      - title: "블록체인"
-        url: ""
+      - title: "주간 클라우드 동향"
+        url: "https://m.news.naver.com/hotissue/main.nhn?sid1=110&cid=1087324"
+      - title: "주간 블록체인"
+        url: "https://m.news.naver.com/hotissue/main.nhn?sid1=105&cid=1087288"
