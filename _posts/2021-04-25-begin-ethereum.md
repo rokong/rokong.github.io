@@ -1,7 +1,7 @@
 ---
 date: 2021-04-25 23:08:00 +0900
 title: "이더리움 공부를 시작해볼까"
-excerpt: Mastering Ethereum 책과 함께 블록체인으로 떠나요
+excerpt: '비트코인 가즈아'를 지켜보기만 하던 어떤 개발자의 생각
 header:
   overlay_image: https://user-images.githubusercontent.com/59322692/115996783-b2431280-a61b-11eb-9933-1ae1e4fe5811.png
   caption: "&copy; [**O'reilly**](https://www.oreilly.com/)"
@@ -48,7 +48,7 @@ categories: diary ethereum
 
 <figure>
   <img src="https://user-images.githubusercontent.com/59322692/115999412-9729d000-a626-11eb-93a9-1f68107c7149.png"
-       alt="content_03">
+       alt="content_03" style="max-width: 350px">
   <figcaption>John Maynard Keynes. 정부가 시장에 개입하는 것을 옹호하였다. / 출처 : 위키백과</figcaption>
 </figure>
 
@@ -61,7 +61,7 @@ categories: diary ethereum
 
 <figure>
   <img src="https://user-images.githubusercontent.com/59322692/115999466-d9531180-a626-11eb-9112-8a1072982f98.png"
-       alt="content_04" style="max-width: 350px;">
+       alt="content_04">
   <figcaption>Ethereum이 온 세상에 광명을 비추고 있다. (상상도) / <a href="https://ethereum.org/en/">출처 : Ethereum</a></figcaption>
 </figure>
 
