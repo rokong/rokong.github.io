@@ -1,7 +1,7 @@
 ---
 date: 2021-04-25 23:08:00 +0900
 title: "이더리움 공부를 시작해볼까"
-excerpt: '비트코인 가즈아'를 지켜보기만 하던 어떤 개발자의 생각
+excerpt: "'비트코인 가즈아'를 지켜보기만 하던 어떤 개발자의 생각"
 header:
   overlay_image: https://user-images.githubusercontent.com/59322692/115996783-b2431280-a61b-11eb-9933-1ae1e4fe5811.png
   caption: "&copy; [**O'reilly**](https://www.oreilly.com/)"

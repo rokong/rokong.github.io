@@ -360,7 +360,15 @@
 
   .author__content{
     text-align: left;
-    padding: 0 1.5em;
+    padding: 0 1em;
+
+    @include breakpoint($large) {
+      padding: 0 1.5em;
+    }
+
+    .author__bio{
+      font-size: $type-size-6;
+    }
   }
 
   .author__urls{
@@ -371,6 +379,11 @@
     border: 0;
     background: transparent;
     box-shadow: none;
+    font-size: $type-size-6;
+
+    &::before{
+      display: none;
+    }
   }
 }
 
