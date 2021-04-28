@@ -8,8 +8,8 @@ header:
 categories: ethereum
 ---
 
-**글에 대한 설명** : **Mastering Ethereum** 이라는 책의 초반 부분을 읽으면서 따라한 과정을 담고 있다. 아직 Chapter 4. 밖에 안 읽었긴 하지만.
-책의 내용은 [github](https://github.com/ethereumbook/ethereumbook) 에서 볼 수 있다.
+**글에 대한 설명** : **Mastering Ethereum**이라는 책의 Chapter 2. 위주로 다루고 있다.
+원문은 [github](https://github.com/ethereumbook/ethereumbook) 에서 볼 수 있다.
 {: .notice}
 
 ## Wallet(Account) 만들기
@@ -28,14 +28,6 @@ Ethereum에서 Contract를 한다는 것은 ether가 왔다 갔다 하는 것이
        alt="content_01">
   <figcaption>FireFox 에서의 MetaMask 설치 페이지</figcaption>
 </figure>
-
-<!--
-<figure>
-  <img src=""
-       alt="content_01">
-  <figcaption></figcaption>
-</figure>
--->
 
 설치는 금방 끝났고 초기 화면이 브라우저에 나타난다. *New to MetaMask?*라는 질문에는 **Yes, let's get set up!**(오른쪽)이라고 답하면 된다.
 
@@ -117,7 +109,7 @@ Etherscan 홈페이지에서 내 Account를 입력하면 내가 가진 ether의 
 이더리움은 코인이 오고가는 어떤 특별한 프로그램도 기록할 수 있다. 이러한 것들을 바로 *Smart Contract*라고 부른다. 개인적으로 법정화폐의
 지위를 호시탐탐 노리는 야망 가득한 비트코인보다 블록체인 위에서 이렇게 창의적으로 거래를 할 수 있는 이더리움이 더 쓸모있어 보인다.
 
-### Solidity와 설치가 필요없는 IDE
+### Solidity와 IDE
 
 *Smart Contract*를 개발에 주로 사용되는 언어는 [*Solidity*](https://docs.soliditylang.org/en/v0.8.4/#) 이다. 새로운 언어가 튀어나와서
 걱정할 수 도 있을텐데, javaScript나 이런 저런 프로그래밍 언어를 다루어 보았으면 아마 쉽게 이해할 수 있을 것이다. 그리고 이를 컴파일하고 배포하는
@@ -174,7 +166,7 @@ compile은 *Solidty Compiler*(왼쪽 위에서 2번째 아이콘)에서 *Compile
 
 이 contract를 blockchain에 deploy 하려면 IDE 왼쪽에 있는 *Deploy & Run Transaction*(왼쪽 위에서 3번째 아이콘)을 선택한다. Environment로
 *Injected Web3*을 선택하면 이 IDE가 알아서 현재 브라우저에 있는 wallet을 연동시키려고 할 것이다. 그럼 모두 동의하고 IDE와 연결할 Account를 선택하면 된다.
-그리고 나서 *Deploy*버튼을 누르면 blockchain으로 contract가 deploy 시작된다.
+그리고 나서 *Deploy*버튼을 누르고 wallet에서 gas를 결제한 뒤 blockchain으로 contract가 deploy 시작된다.
 
 <figure>
   <img src="https://user-images.githubusercontent.com/59322692/116262998-fa953880-a7b3-11eb-9700-b49d48a13f97.png"
@@ -182,6 +174,59 @@ compile은 *Solidty Compiler*(왼쪽 위에서 2번째 아이콘)에서 *Compile
   <figcaption>(좌)remix의 배포화면. (우)gas fee 결제화면.</figcaption>
 </figure>
 
+**gas** : ethereum의 blockchain 위에 contract를 올릴 때 이것이 유효한 프로그램인지 validation 을 받아야만 한다.
+확인을 부탁하는 차원에서 ethereum network 상에 gas라는 명목으로 ether를 지불하는 것이다.
+{: .notice--info}
 
+배포가 완료되면 *Deployed Contracts* 아래로 `Faucet`이 나타날 것이다. 이제 이 Contract는 blockchain network에 기록이 완료되었다.
+copy icon을 눌러 address를 복사한 뒤 Etherscan에서 나의 contract를 볼 수 있다.
 
-## Transaction 만들기
+## Transaction 해보기
+
+### contract에 입금
+
+나의 Account에서 `Faucet`으로 이더리움을 이체해보자. MetaMask에서 *Send*를 선택한 뒤 Contract의 주소로 0.1 ether를 보내자.
+
+<figure>
+  <img src="https://user-images.githubusercontent.com/59322692/116267395-557c5f00-a7b7-11eb-9c98-561bdc77c018.png"
+       alt="content_09" style="max-width: 400px;">
+  <figcaption>Transfer 화면. blockchain위에 기록하는 작업이다 보니 gas 역시 필요하다.</figcaption>
+</figure>
+
+시간이 좀 지나면 Etherscan에서 Contract의 Balance가 늘어난 것을 볼 수 있다.
+
+### contract에서 출금
+
+다시 `Faucet`에서 나의 Account로 이체해보자. 이 때는 전에 만들었던 withdraw 함수를 사용하면 된다. 다시 remix IDE의 *Deploy & Run Transaction*
+로 돌아가자. 맨 아래 *Deployed Contracts*에서 그 `Faucet`을 찾자. 만약 보이지 않는다면 *At Address*부분에 `Faucet`의 address를 입력하면 된다.
+
+<figure>
+  <img src="https://user-images.githubusercontent.com/59322692/116268443-4944d180-a7b8-11eb-937a-a3b01606e07d.png"
+       alt="content_10" style="max-width: 350px;">
+  <figcaption>Contracts 실행화면. At Address에 주소를 입력해서 Contracts를 부를 수도 있다.</figcaption>
+</figure>
+
+지금 `Faucet`에는 0.1 ether가 있는데 이 중에서 0.01 ether를 인출해보자. 1 ether가 0이 18개 였으므로 0.01 ether는
+10000000000000000, 0이 16개면 된다. 이를 입력하고 `withdraw` 버튼을 누른다. 역시 gas를 결제한 뒤 transaction이 시작된다.
+이 또한 시간이 좀 지나면 Etherscan에서 확인이 가능하다. 이 때는 Transactions 탭이 아닌 **Internal Txns**에서 확인 가능하다.
+
+<figure>
+  <img src="https://user-images.githubusercontent.com/59322692/116269767-72199680-a7b9-11eb-85b3-c37207221faa.png"
+       alt="content_11">
+  <figcaption>Internal Transactions 화면. Contracts 로부터 입금이 된 것을 확인할 수 있다.</figcaption>
+</figure>
+
+## 첫인상을 회상해보면
+
+### 거대한 생태계
+
+하나의 application으로 정의할 수 없었다. Ethereum이 등 뒤에 숨겨둔 블록체인 기술을 한번 사용해보았는데, 블록처럼 생긴 것은 전혀 못 봤다.
+그러다보니 Ethereum을 가장 잘 나타내는 것이 무엇인지(Wallet인지, Ether인지, Solidity인지...) 꼽아내는 것이 불가능하다는 생각이 들었다.
+결론은 Ethereum은 눈에 보이는 application이 아닌 눈에 담을 수 없을 정도로 거대한 생태계라고 생각한다.
+
+### 요즘 유행하는 오픈소스
+
+Wallet부터 Contract까지 브라우저 하나 만으로 지금까지 모든 것을 할 수 있었다. 생각해보면 javaScript 만으로 Ethereum을 어느정도 다룰 수
+있다는 것을 뜻하는 것 같고, 2010년대 후반 개발자들 사이에서 javaScript 열풍이 불었음을 연관지을 수 있겠다고 생각했다. 그야말로 최신 개발동향과
+완벽히 맞물려 있는 프로젝트임을 실감할 수 있었다. 또한 지금까지 사용한 웹페이지 모두 자유롭게 이용할 수 있었느니 여기서 또한 커뮤니티 기반의
+오픈소스 프로젝트가 거대함을 새삼 느낄 수 있었다.
