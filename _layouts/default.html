@@ -24,13 +24,9 @@
     </div>
 
     {% if page.layout == 'dbr-archive' or page.layout == 'dbr-single' %}
-    <div class="loading_layer">
-      <div class="loading_box">
-        <div class="loading_dot"></div>
-        <div class="loading_dot"></div>
-        <div class="loading_dot"></div>
-      </div>
-    </div>
+      <button class="toast-btn btn btn--inverse">
+        <i class="fas fa-sync-alt"></i>
+      </button>
     {% endif %}
 
     {% if site.search == true %}

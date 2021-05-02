@@ -59,10 +59,10 @@ read_time: false
     window.onhashchange = function(){
         const pubNumber = archive.getPubNumberByHash(window.location.hash);
         (async () => {
-            common.toggleContent(false);
+            common.showLoading(true);
             await archive.loadArchive(pubNumber);
             window.scrollTo({top: 0, behavior: 'smooth'});
-            common.toggleContent(true);
+            common.showLoading(false);
         })();
     }
 
@@ -101,6 +101,14 @@ read_time: false
             }
         })();
     }
+
+    document.querySelector('.toast-btn').addEventListener('click', () => {
+        common.showLoading(true);
+        const pubNumber = archive.getPubNumberByHash(window.location.hash);
+        archive.reloadArchive(pubNumber).then(() => {
+            common.showLoading(false);
+        });
+    });
 
     //import {repo} from"/assets/js/dbr/base.js";
 

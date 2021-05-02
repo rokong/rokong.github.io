@@ -67,7 +67,7 @@ show_date: false
 </div>
 
 <script type="module">
-    import {recent} from '/assets/js/dbr/base.js';
+    import {common, recent} from '/assets/js/dbr/base.js';
     import {single} from '/assets/js/dbr/single.js';
 
     window.onload = function(){
@@ -75,10 +75,13 @@ show_date: false
     }
 
     window.onhashchange = function(){
+        common.showLoading(true);
         const articleId = window.location.hash.replace(/#\/(\d+).*/g, '$1');
 
         single.loadSingle(articleId).then(() => {
+            common.showLoading(false);
             window.scrollTo({top: 0, behavior: 'smooth'});
+
             setEventOnImageWrapper();
         });
 

@@ -36,38 +36,26 @@ body[class*="layout--dbr"] {
     margin-bottom: 1em;
   }
 
-  .initial-content{
-    max-height: 1000px;
-    overflow: hidden;
-    transition: all 1s ease-in-out;
+  .toast-btn{
+    position: fixed;
+    z-index: 1;
+    bottom: 15px;
+    right: 15px;
 
-    .loading_layer.active+{
-      max-height: 0;
+    min-width: 50px;
+    min-height: 50px;
+
+    font-size: 2em;
+    padding: 0;
+
+    color: $primary-color;
+
+    @keyframes rotate{
+      to{ transform: rotate(360deg); }
     }
-  }
 
-  .loading_layer{
-    opacity: 0;
-    flex: 1 0 auto;
-    z-index: -10;
-
-    &.active{
-      opacity: 1;
-    }
-
-    .loading_box{
-      position: absolute;
-      top: 50%;
-      left: calc(50% - 30px);
-      width: 60px;
-      text-align: center;
-
-      .loading_dot{
-        display: inline-block;
-        background-color: #0092ca;
-        width: 10px;
-        height: 10px;
-      }
+    .fas.fa-sync-alt.rotate{
+      animation: rotate 2s linear infinite;
     }
   }
 }

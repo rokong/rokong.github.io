@@ -141,6 +141,9 @@ export const archive = (function(){
         loadArchive : function(pubNumber){
             return this.getArchive(pubNumber).then(setPage);
         },
+        reloadArchive : function(pubNumber){
+            return this.updateArchive(pubNumber).then(setPage);
+        },
         getArticleList : function(pubNumber){
             return this.getArchive(pubNumber).then(e => {return e.articleList;});
         },
