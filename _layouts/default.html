@@ -19,17 +19,19 @@
     {% include_cached browser-upgrade.html %}
     {% include_cached masthead.html %}
 
-    {% if page.layout == dbr-archive %}
-      <div class="loading_layer">
-        <div class="loading_box">
-          <div class="loading_dot"></div>
-        </div>
-      </div>
-    {% endif %}
-
     <div class="initial-content">
       {{ content }}
     </div>
+
+    {% if page.layout == 'dbr-archive' or page.layout == 'dbr-single' %}
+    <div class="loading_layer">
+      <div class="loading_box">
+        <div class="loading_dot"></div>
+        <div class="loading_dot"></div>
+        <div class="loading_dot"></div>
+      </div>
+    </div>
+    {% endif %}
 
     {% if site.search == true %}
       <div class="search-content">

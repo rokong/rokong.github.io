@@ -59,8 +59,10 @@ read_time: false
     window.onhashchange = function(){
         const pubNumber = archive.getPubNumberByHash(window.location.hash);
         (async () => {
+            common.toggleContent(false);
             await archive.loadArchive(pubNumber);
             window.scrollTo({top: 0, behavior: 'smooth'});
+            common.toggleContent(true);
         })();
     }
 

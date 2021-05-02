@@ -36,8 +36,39 @@ body[class*="layout--dbr"] {
     margin-bottom: 1em;
   }
 
-  .loading_layer{
+  .initial-content{
+    max-height: 1000px;
+    overflow: hidden;
+    transition: all 1s ease-in-out;
 
+    .loading_layer.active+{
+      max-height: 0;
+    }
+  }
+
+  .loading_layer{
+    opacity: 0;
+    flex: 1 0 auto;
+    z-index: -10;
+
+    &.active{
+      opacity: 1;
+    }
+
+    .loading_box{
+      position: absolute;
+      top: 50%;
+      left: calc(50% - 30px);
+      width: 60px;
+      text-align: center;
+
+      .loading_dot{
+        display: inline-block;
+        background-color: #0092ca;
+        width: 10px;
+        height: 10px;
+      }
+    }
   }
 }
 

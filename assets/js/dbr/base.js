@@ -187,6 +187,14 @@ export const common = {
     },
     getDocumentTitle : function(title){
         return `${title} | 전략처럼 행동하기`;
+    },
+    toggleContent : function(isShow){
+        let loadingLayer = document.querySelector('.loading_layer');
+        if(isShow){
+            loadingLayer.className = loadingLayer.className.replace(/\sactive$/g, '');
+        }else{
+            loadingLayer.className += ' active';
+        }
     }
 };
 
